@@ -1,0 +1,25 @@
+{
+    "name": "zrashwani/news-scrapper",
+    "description": "scrapping news data from a webpage using structured data",
+	"keywords": ["scrapper","crawler", "news"],
+	"license": "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/console": "^2.6",
+        "fabpot/goutte": "^2.0"        
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.6",
+	    "symfony/var-dumper": "^2.7",
+		"squizlabs/php_codesniffer": "~2.0"
+    },
+    "authors": [
+        {
+            "name": "zrashwani",
+            "email": "zaid@wewebit.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Zrashwani\\NewsScrapper\\": "src/NewsScrapper" }
+    }
+}
