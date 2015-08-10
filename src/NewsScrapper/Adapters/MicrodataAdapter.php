@@ -23,7 +23,7 @@ class MicrodataAdapter extends AbstractAdapter
         $crawler->filterXPath('//*[@itemprop="headline"]')
             ->each(
                 function ($node) use (&$ret) {
-                        $ret = $node->text();
+                        $ret = trim($node->text());
                 }
             );
 
@@ -52,7 +52,7 @@ class MicrodataAdapter extends AbstractAdapter
         $crawler->filterXPath('//*[@itemprop="description"]')
             ->each(
                 function ($node) use (&$ret) {
-                        $ret = $node->text();
+                        $ret = trim($node->text());
                 }
             );
 
@@ -71,9 +71,14 @@ class MicrodataAdapter extends AbstractAdapter
         $crawler->filterXPath('//*[@itemprop="keywords"]')
             ->each(
                 function ($node) use (&$ret) {
-                        $node_txt = trim($node->text());
-                    if (!empty($node_txt)) {
-                        $ret = explode(',', $node_txt);
+                    if($node->nodeName()=='meta'){
+                        $keyword_txt = trim($node->attr('content'));
+                    }else{
+                        $keyword_txt = trim($node->text());
+                    }
+                    
+                    if (empty($keyword_txt) !== true) {
+                        $ret = explode(',', $keyword_txt);
                     }
                 }
             );
@@ -87,13 +92,8 @@ class MicrodataAdapter extends AbstractAdapter
         $crawler->filterXPath("//*[@itemtype='http://schema.org/Article' or".
                 " @itemprop='articleBody' or @itemtype='http://schema.org/BlogPosting']")
             ->each(
-                function ($node) use (&$ret) {
-                        $html = '';
-                    foreach ($node as $domElement) {
-                        $html .= $domElement->ownerDocument->saveHTML($domElement);
-                    }
-
-                        $ret = $this->normalizeHtml($html);
+                function ($node) use (&$ret) {                    
+                        $ret = $this->normalizeHtml($node);
                 }
             );
 
@@ -107,7 +107,11 @@ class MicrodataAdapter extends AbstractAdapter
         $crawler->filterXPath('//*[@itemprop="datePublished"]')
             ->each(
                 function ($node) use (&$date_str) {
+                    if($node->nodeName()=='meta'){
+                        $date_str = $node->attr('content');
+                    }else{
                         $date_str = $node->text();
+                    }
                 }
             );
 

@@ -3,3 +3,5 @@
 /nbproject/
 /test.php
 /testing.php
+/phpunit.xml
+/coverage/

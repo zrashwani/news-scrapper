@@ -99,7 +99,7 @@ class Client
                 function ($link_node) use (&$scrap_result, $baseUrl, $theClient) {
                         $link = $theClient->getAdapter()
                             ->normalizeLink($link_node->attr('href'), $baseUrl);
-
+                        
                         $article_info = $this->getLinkData($link);
                         $scrap_result[] = $article_info;
                 }

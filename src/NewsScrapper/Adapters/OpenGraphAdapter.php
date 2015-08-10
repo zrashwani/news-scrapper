@@ -132,7 +132,7 @@ class OpenGraphAdapter extends AbstractAdapter
                         $date_str = $node->attr('content');
                 }
             );
-
+            
         if (!is_null($date_str)) {
             $ret = new \DateTime($date_str);
             return $ret->format(\DateTime::ISO8601);

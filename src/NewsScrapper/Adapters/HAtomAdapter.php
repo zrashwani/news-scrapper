@@ -108,7 +108,7 @@ class HAtomAdapter extends AbstractAdapter
     public function extractAuthor(Crawler $crawler)
     {
         $ret = null;
-        $crawler->filter('.hentry a[rel="author"]')
+        $crawler->filter('a[rel="author"]')
             ->each(
                 function ($node) use (&$ret) {
                         $ret = $node->text();
