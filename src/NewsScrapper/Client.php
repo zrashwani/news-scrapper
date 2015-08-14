@@ -8,22 +8,23 @@ use Symfony\Component\DomCrawler\Crawler;
 /**
  * Client to scrap article/news contents from serveral news sources
  *
- * @author Zeid Rashwani <zrashwani.com>
+ * @author Zeid Rashwani <zaid@zrashwani.com>
  */
 class Client
 {
+
     protected $scrapped_data = array();
     protected $scrapClient;
     protected $adaptersList = ['Microdata', 'HAtom', 'OpenGraph', 'Default'];
 
     /**
-     * adapter to scrap content
+     * Adapter to scrap content
      * @var Adapters\AbstractAdapter
      */
     protected $adapter;
 
     /**
-     * constructor
+     * Constructor
      */
     public function __construct($adapter_name = null)
     {
@@ -36,7 +37,7 @@ class Client
     }
 
     /**
-     * getting selected adapter
+     * Getting selected adapter
      * @return Adapters\AbstractAdapter
      */
     public function getAdapter()
@@ -45,7 +46,7 @@ class Client
     }
 
     /**
-     * setting adapter preferred for scrapping
+     * Setting adapter preferred for scrapping
      * @param string $adapter_name
      * @throws \Exception
      */
@@ -62,7 +63,7 @@ class Client
     }
 
     /**
-     * set new source information, including urls, selectors
+     * Set new source information, including urls, selectors
      * @param array $news_sources
      * @return Client
      */
@@ -73,7 +74,7 @@ class Client
     }
 
     /**
-     * get data extracting by scrapping
+     * Get data extracting by scrapping
      * @return array
      */
     public function getScrappedData()
@@ -93,23 +94,23 @@ class Client
 
         $scrap_result = array();
         $theClient = $this;
-        
+
         $crawler->filter($linkSelector)
-            ->each(
-                function ($link_node) use (&$scrap_result, $baseUrl, $theClient) {
-                        $link = $theClient->getAdapter()
+                ->each(
+                    function ($link_node) use (&$scrap_result, $baseUrl, $theClient) {
+                            $link = $theClient->getAdapter()
                             ->normalizeLink($link_node->attr('href'), $baseUrl);
-                        
-                        $article_info = $this->getLinkData($link);
-                        $scrap_result[] = $article_info;
-                }
-            );
+
+                            $article_info = $this->getLinkData($link);
+                            $scrap_result[] = $article_info;
+                    }
+                );
 
         return $scrap_result;
     }
 
     /**
-     * scrap information for single url
+     * Scrap information for single url
      * @param string $link
      * @return \stdClass
      */
@@ -135,7 +136,7 @@ class Client
     }
 
     /**
-     * extracting page data from domCrawler according to rules defined by adapter
+     * Extracting page data from domCrawler according to rules defined by adapter
      * @param \stdClass                                        $article_info
      * @param Crawler                                          $pageCrawler
      * @param \Zrashwani\NewsScrapper\Adapters\AbstractAdapter $adapter      adapter used for scrapping

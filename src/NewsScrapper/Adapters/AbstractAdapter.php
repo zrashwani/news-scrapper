@@ -9,7 +9,8 @@ use \Symfony\Component\DomCrawler\Crawler;
  *
  * @author Zeid Rashwani <zrashwani.com>
  */
-abstract class AbstractAdapter {
+abstract class AbstractAdapter
+{
 
     abstract public function extractTitle(Crawler $crawler);
 
@@ -31,7 +32,8 @@ abstract class AbstractAdapter {
      * @param string $baseUrl
      * @return string
      */
-    public function normalizeLink($link, $baseUrl) {
+    public function normalizeLink($link, $baseUrl)
+    {
         if (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
             $link = $baseUrl . trim($link, '/');
         } elseif (strpos('//', $link) === 0) {
@@ -49,16 +51,19 @@ abstract class AbstractAdapter {
      * @param string $html
      * @return string
      */
-    public function normalizeHtml(Crawler $crawler) {
+    public function normalizeHtml(Crawler $crawler)
+    {
         $disallowed_tags = ['script', 'style', 'iframe'];
-        $crawler   
-                ->filter(implode(',',$disallowed_tags))
-                ->each(function (Crawler $node, $i) {
+        $crawler
+            ->filter(implode(',', $disallowed_tags))
+            ->each(
+                function (Crawler $node, $i) {
                     foreach ($node as $subnode) {
-                    //delete these elements from dom document
-                    $subnode->parentNode->removeChild($subnode);
+                            //delete these elements from dom document
+                            $subnode->parentNode->removeChild($subnode);
                     }
-        });
+                }
+            );
 
         $html = '';
         foreach ($crawler as $domElement) {
@@ -67,5 +72,4 @@ abstract class AbstractAdapter {
 
         return $html;
     }
-
 }
