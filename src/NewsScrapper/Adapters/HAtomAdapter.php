@@ -73,13 +73,8 @@ class HAtomAdapter extends AbstractAdapter
         $ret = null;
         $crawler->filter(".hentry .entry-content")
             ->each(
-                function ($node) use (&$ret) {
-                        $html = '';
-                    foreach ($node as $domElement) {
-                        $html .= $domElement->ownerDocument->saveHTML($domElement);
-                    }
-
-                        $ret = $this->normalizeHtml($html);
+                function ($node) use (&$ret) {                     
+                        $ret = $this->normalizeHtml($node);
                 }
             );
 

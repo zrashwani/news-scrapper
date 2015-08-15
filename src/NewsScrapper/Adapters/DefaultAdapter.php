@@ -123,7 +123,7 @@ class DefaultAdapter extends AbstractAdapter
                             $html .= $domElement->ownerDocument->saveHTML($domElement);
                         }
 
-                        $ret = $this->normalizeHtml($html);
+                        $ret = $this->normalizeHtml($node);
                     }
                 }
             );
