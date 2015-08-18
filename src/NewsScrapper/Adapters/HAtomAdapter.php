@@ -95,15 +95,13 @@ class HAtomAdapter extends AbstractAdapter
         if (!is_null($date_str)) {
             $ret = new \DateTime($date_str);
             return $ret->format(\DateTime::ISO8601);
-        } else {
-            return null;
         }
     }
 
     public function extractAuthor(Crawler $crawler)
     {
         $ret = null;
-        $crawler->filter('a[rel="author"]')
+        $crawler->filter('.hentry .author.vcard')
             ->each(
                 function ($node) use (&$ret) {
                         $ret = $node->text();

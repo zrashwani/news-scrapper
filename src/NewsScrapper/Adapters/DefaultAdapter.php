@@ -8,24 +8,22 @@ use \Symfony\Component\DomCrawler\Crawler;
  * Adapter to extract page data according to default html tags
  * @author Zeid Rashwani <zrashwani.com>
  */
-class DefaultAdapter extends AbstractAdapter
-{
+class DefaultAdapter extends AbstractAdapter {
 
     /**
      * extract title information from crawler object
      * @param Crawler $crawler
      * @return string
      */
-    public function extractTitle(Crawler $crawler)
-    {
+    public function extractTitle(Crawler $crawler) {
         $ret = null;
 
         $crawler->filterXPath('//head/title')
-            ->each(
-                function ($node) use (&$ret) {
-                            $ret = $node->text();
+                ->each(
+                        function ($node) use (&$ret) {
+                    $ret = $node->text();
                 }
-            );
+        );
 
 
         return $ret;
@@ -37,28 +35,28 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractImage(Crawler $crawler)
-    {
+    public function extractImage(Crawler $crawler) {
         $ret = null;
         $theAdapter = $this;
 
         $crawler->filterXPath('//img')
-            ->each(
-                function ($node) use (&$ret, $theAdapter) {
+                ->each(
+                        function ($node) use (&$ret, $theAdapter) {
+                    if (is_readable($node->attr('src'))) {
+                        $img_src = $theAdapter->normalizeLink($node->attr('src'), 'http://edd.com'); //TODO: handle
+                        $width_org = $height_org = 0;
+                        list($width, $height) = getimagesize($img_src);
 
-                            $img_src = $theAdapter->normalizeLink($node->attr('src'), 'http://edd.com'); //TODO: handle
-                            $width_org = $height_org = 0;
-                            list($width, $height) = getimagesize($img_src);
+                        if (empty($ret) === false) {
+                            list($width_org, $height_org) = getimagesize($ret);
+                        }
 
-                    if (empty($ret) === false) {
-                        list($width_org, $height_org) = getimagesize($ret);
-                    }
-
-                    if ($width > $width_org && $height > $height_org) {
-                        $ret = $img_src;
+                        if ($width > $width_org && $height > $height_org) {
+                            $ret = $img_src;
+                        }
                     }
                 }
-            );
+        );
 
         return $ret;
     }
@@ -68,16 +66,15 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractDescription(Crawler $crawler)
-    {
+    public function extractDescription(Crawler $crawler) {
         $ret = null;
 
         $crawler->filterXPath("//head/meta[@name='description']")
-            ->each(
-                function ($node) use (&$ret) {
-                            $ret = $node->attr('content');
+                ->each(
+                        function ($node) use (&$ret) {
+                    $ret = $node->attr('content');
                 }
-            );
+        );
 
         return $ret;
     }
@@ -87,19 +84,18 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return array
      */
-    public function extractKeywords(Crawler $crawler)
-    {
+    public function extractKeywords(Crawler $crawler) {
         $ret = array();
 
         $crawler->filterXPath("//head/meta[@name='keywords']")
-            ->each(
-                function ($node) use (&$ret) {
-                            $node_txt = trim($node->attr('content'));
+                ->each(
+                        function ($node) use (&$ret) {
+                    $node_txt = trim($node->attr('content'));
                     if (!empty($node_txt)) {
                         $ret = explode(',', $node_txt);
                     }
                 }
-            );
+        );
 
         return $ret;
     }
@@ -109,24 +105,20 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractBody(Crawler $crawler)
-    {
+    public function extractBody(Crawler $crawler) {
         $ret = null;
 
         $crawler->filterXPath("//article")
-            ->each(
-                function ($node) use (&$ret) {
-                            $node_txt = $node->text();
+                ->each(
+                        function ($node) use (&$ret) {
+                    
+                    $node_txt = $node->text();
                     if (strlen($node_txt) > strlen($ret)) {
-                        $html = '';
-                        foreach ($node as $domElement) {
-                            $html .= $domElement->ownerDocument->saveHTML($domElement);
-                        }
-
                         $ret = $this->normalizeHtml($node);
                     }
                 }
-            );
+        );
+        
         return $ret;
     }
 
@@ -135,13 +127,12 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return \DateTime
      */
-    public function extractPublishDate(Crawler $crawler)
-    {
+    public function extractPublishDate(Crawler $crawler) {
         $date_str = null;
 
         $crawler->filterXPath("//meta[@property='article:published_time']") //TODO: revise
-            ->each(
-                function ($node) use (&$date_str) {
+                ->each(
+                        function ($node) use (&$date_str) {
                     if (empty($date_str) == true) {
                         $date_str = $node->attr('content');
                     }
@@ -149,7 +140,7 @@ class DefaultAdapter extends AbstractAdapter
                         $date_str = $node->text();
                     }
                 }
-            );
+        );
 
         try {
             if (!is_null($date_str)) {
@@ -169,17 +160,17 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractAuthor(Crawler $crawler)
-    {
+    public function extractAuthor(Crawler $crawler) {
         $ret = null;
         $crawler->filterXPath("//head/meta[@name='author']")
-            ->each(
-                function ($node) use (&$ret) {
-                            $ret = $node->attr('content');
+                ->each(
+                        function ($node) use (&$ret) {
+                    $ret = $node->attr('content');
                 }
-            );
+        );
 
 
         return $ret;
     }
+
 }

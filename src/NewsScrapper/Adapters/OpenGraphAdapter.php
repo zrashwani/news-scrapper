@@ -66,7 +66,7 @@ class OpenGraphAdapter extends AbstractAdapter
                 }
             );
         
-        if (empty($ret) === true) {
+        if (empty($ret) === true) { //todo: add image size restriction and priorities
             $crawler->filterXPath('//img')
                 ->each(
                     function ($node) use (&$ret) {
@@ -106,9 +106,11 @@ class OpenGraphAdapter extends AbstractAdapter
         $crawler->filterXPath("//head/meta[@property='og:keywords']")
             ->each(
                 function ($node) use (&$ret) {
-                        $node_txt = trim($node->text());
+                
+                        $node_txt = trim($node->attr('content'));                        
                     if (!empty($node_txt)) {
                         $ret = explode(',', $node_txt);
+                        
                     }
                 }
             );
@@ -144,21 +146,12 @@ class OpenGraphAdapter extends AbstractAdapter
     public function extractAuthor(Crawler $crawler)
     {
         $ret = null;
-        $crawler->filterXPath("//head/meta[@property='og:author']")
+        $crawler->filterXPath("//head/meta[@property='og:article:author']")
             ->each(
                 function ($node) use (&$ret) {
-                        $ret = $node->text();
+                        $ret = $node->attr('content');
                 }
             );
-
-        if (empty($ret) === true) {
-            $crawler->filterXPath("//head/meta[@name='author']")
-                ->each(
-                    function ($node) use (&$ret) {
-                            $ret = $node->attr('content');
-                    }
-                );
-        }
                 
         return $ret;
     }
