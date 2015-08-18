@@ -1,7 +1,8 @@
 <?php
-namespace Zrashwani\NewsScrapper;
+namespace Zrashwani\NewsScrapper\Adapters;
 
 use Symfony\Component\DomCrawler\Crawler;
+use Zrashwani\NewsScrapper\Adapters;
 
 class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
     
@@ -95,6 +96,6 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
     }
     
     protected function getHtmlContent($filename = 'microdata.html'){
-        return file_get_contents(__DIR__.'/../data/'.$filename);
+        return file_get_contents(__DIR__ . '/../../data/' . $filename);
     }
 }

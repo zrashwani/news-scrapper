@@ -25,7 +25,6 @@ class DefaultAdapter extends AbstractAdapter {
                 }
         );
 
-
         return $ret;
     }
 
@@ -96,6 +95,7 @@ class DefaultAdapter extends AbstractAdapter {
                     }
                 }
         );
+        $ret = $this->normalizeKeywords($ret);
 
         return $ret;
     }
@@ -130,25 +130,23 @@ class DefaultAdapter extends AbstractAdapter {
     public function extractPublishDate(Crawler $crawler) {
         $date_str = null;
 
-        $crawler->filterXPath("//meta[@property='article:published_time']") //TODO: revise
+        $crawler->filterXPath("//meta[@name='pubdate']") //TODO: revise
                 ->each(
                         function ($node) use (&$date_str) {
                     if (empty($date_str) == true) {
                         $date_str = $node->attr('content');
-                    }
-                    if (empty($date_str) == true) {
-                        $date_str = $node->text();
-                    }
+                    }                    
                 }
         );
 
         try {
             if (!is_null($date_str)) {
-                $ret = new \DateTime($date_str);
+                $ret = \DateTime::createFromFormat('Ymd', $date_str);                 
+                $ret->setTime(0, 0, 0);
                 return $ret->format(\DateTime::ISO8601);
             }
         } catch (\Exception $ex) {
-            die('invalid date...');
+            error_log('invalid date');
             //TODO: handle invalid date format
         }
 

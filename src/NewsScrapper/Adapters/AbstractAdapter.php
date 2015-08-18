@@ -72,4 +72,13 @@ abstract class AbstractAdapter
 
         return $html;
     }
+
+
+    public function normalizeKeywords(array $keywords){
+        foreach($keywords as $k => $word){
+            $keywords[$k] = trim($word);
+        }
+        
+        return $keywords;
+    }
 }

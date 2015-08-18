@@ -62,16 +62,6 @@ class Client
         return $this;
     }
 
-    /**
-     * Set new source information, including urls, selectors
-     * @param array $news_sources
-     * @return Client
-     */
-    public function setSourceInfo($news_sources)
-    {
-        $this->news_sources = $news_sources;
-        return $this;
-    }
 
     /**
      * Get data extracting by scrapping

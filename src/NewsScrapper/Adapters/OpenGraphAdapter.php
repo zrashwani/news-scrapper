@@ -70,10 +70,12 @@ class OpenGraphAdapter extends AbstractAdapter
             $crawler->filterXPath('//img')
                 ->each(
                     function ($node) use (&$ret) {
+                        $image_src = $node->attr('src');
                         if (empty($ret) === true) {
-                            $ret = $node->attr('src');
-                        }
+                            $ret = $image_src;
+                        }                        
                     }
+                    
                 );
         }
 
