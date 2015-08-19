@@ -20,7 +20,7 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase {
         $adapter = new Adapters\DefaultAdapter();
 
         $image = $adapter->extractImage($crawler);
-        $this->assertEquals('default.png', $image);
+        $this->assertEquals('http://www.google.com/images/srpr/logo11w.png', $image);
     }
 
     public function testExtractDescription() {
@@ -65,6 +65,26 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase {
 
         $body = $adapter->extractBody($crawler);        
         $this->assertContains('article body here', $body);
+    }
+    
+    public function testNormalizeLink(){
+        $adapter = new Adapters\DefaultAdapter();
+        $adapter->currentUrl = 'http://example.com/subfolder/';
+        
+        //relative url is normalized to absolute one
+        $url1 = $adapter->normalizeLink("/another-url");
+        $this->assertEquals('http://example.com/another-url', $url1);
+        
+        //this url remains not changed
+        $url2 = $adapter->normalizeLink("http://example2.com/whatever");
+        $this->assertEquals("http://example2.com/whatever", $url2);
+        
+        $url3 = $adapter->normalizeLink('in-sub');
+        $this->assertEquals('http://example.com/subfolder/in-sub', $url3);
+        
+        $adapter->currentUrl = 'https://securedurl.com/';
+        $url4 = $adapter->normalizeLink("//example3.com");
+        $this->assertEquals('https://example3.com', $url4);
     }
 
     protected function getHtmlContent($filename = 'default.html') {

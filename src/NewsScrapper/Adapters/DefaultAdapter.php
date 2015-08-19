@@ -39,20 +39,17 @@ class DefaultAdapter extends AbstractAdapter {
         $theAdapter = $this;
 
         $crawler->filterXPath('//img')
-                ->each(
-                        function ($node) use (&$ret, $theAdapter) {
-                    if (is_readable($node->attr('src'))) {
-                        $img_src = $theAdapter->normalizeLink($node->attr('src'), 'http://edd.com'); //TODO: handle
-                        $width_org = $height_org = 0;
-                        list($width, $height) = getimagesize($img_src);
+                ->each(function ($node) use (&$ret, $theAdapter) {
+                    $img_src = $theAdapter->normalizeLink($node->attr('src')); //TODO: handle
+                    $width_org = $height_org = 0;
+                    list($width, $height) = getimagesize($img_src);
 
-                        if (empty($ret) === false) {
-                            list($width_org, $height_org) = getimagesize($ret);
-                        }
+                    if (empty($ret) === false) {
+                        list($width_org, $height_org) = getimagesize($ret);
+                    }
 
-                        if ($width > $width_org && $height > $height_org) {
-                            $ret = $img_src;
-                        }
+                    if ($width > $width_org && $height > $height_org) {
+                        $ret = $img_src;
                     }
                 }
         );
@@ -111,14 +108,14 @@ class DefaultAdapter extends AbstractAdapter {
         $crawler->filterXPath("//article")
                 ->each(
                         function ($node) use (&$ret) {
-                    
+
                     $node_txt = $node->text();
                     if (strlen($node_txt) > strlen($ret)) {
                         $ret = $this->normalizeHtml($node);
                     }
                 }
         );
-        
+
         return $ret;
     }
 
@@ -135,13 +132,13 @@ class DefaultAdapter extends AbstractAdapter {
                         function ($node) use (&$date_str) {
                     if (empty($date_str) == true) {
                         $date_str = $node->attr('content');
-                    }                    
+                    }
                 }
         );
 
         try {
             if (!is_null($date_str)) {
-                $ret = \DateTime::createFromFormat('Ymd', $date_str);                 
+                $ret = \DateTime::createFromFormat('Ymd', $date_str);
                 $ret->setTime(0, 0, 0);
                 return $ret->format(\DateTime::ISO8601);
             }

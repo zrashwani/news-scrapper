@@ -13,7 +13,6 @@ use Symfony\Component\DomCrawler\Crawler;
 class Client
 {
 
-    protected $scrapped_data = array();
     protected $scrapClient;
     protected $adaptersList = ['Microdata', 'HAtom', 'OpenGraph', 'Default'];
 
@@ -62,16 +61,6 @@ class Client
         return $this;
     }
 
-
-    /**
-     * Get data extracting by scrapping
-     * @return array
-     */
-    public function getScrappedData()
-    {
-        return $this->scrapped_data;
-    }
-
     /**
      * scrap one source of news
      * @param array $source_info
@@ -83,13 +72,14 @@ class Client
         $this->setAdapter('Default'); //initialy
 
         $scrap_result = array();
-        $theClient = $this;
+        $theAdapter = $this->getAdapter();
+        $theAdapter->currentUrl = $baseUrl;
 
         $crawler->filter($linkSelector)
                 ->each(
-                    function ($link_node) use (&$scrap_result, $baseUrl, $theClient) {
-                            $link = $theClient->getAdapter()
-                            ->normalizeLink($link_node->attr('href'), $baseUrl);
+                    function ($link_node) use (&$scrap_result, $theAdapter) {
+                            $link = $theAdapter
+                            ->normalizeLink($link_node->attr('href'));
 
                             $article_info = $this->getLinkData($link);
                             $scrap_result[] = $article_info;
@@ -109,9 +99,9 @@ class Client
         $article_info = new \stdClass();
         $article_info->url = $link;
 
-        $pageCrawler = $this->scrapClient->request('GET', $article_info->url);
+        $pageCrawler = $this->scrapClient->request('GET', $article_info->url);        
 
-        $selected_adapter = $this->getAdapter();
+        $selected_adapter = $this->getAdapter();         
         if ($selected_adapter !== null) {
             $this->extractPageData($article_info, $pageCrawler, $selected_adapter);
         } else { //apply smart scrapping by iterating over all adapters
@@ -133,6 +123,8 @@ class Client
      */
     protected function extractPageData($article_info, Crawler $pageCrawler, Adapters\AbstractAdapter $adapter)
     {
+        $adapter->currentUrl = $article_info->url; //associate link url to adapter
+        
         if (!isset($article_info->title)) {
             $article_info->title = $adapter->extractTitle($pageCrawler);
         }
