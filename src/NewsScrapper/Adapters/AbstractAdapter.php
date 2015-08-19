@@ -11,6 +11,7 @@ use \Symfony\Component\DomCrawler\Crawler;
  */
 abstract class AbstractAdapter
 {
+    public $currentUrl;
 
     abstract public function extractTitle(Crawler $crawler);
 
@@ -32,16 +33,20 @@ abstract class AbstractAdapter
      * @param string $baseUrl
      * @return string
      */
-    public function normalizeLink($link, $baseUrl)
+    public function normalizeLink($link)
     {
-        if (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
-            $link = $baseUrl . trim($link, '/');
-        } elseif (strpos('//', $link) === 0) {
-            $protocol = parse_url($baseUrl, 'schema');
-            $link = $protocol . ':' . $link;
-        } elseif (strpos('/', $link) === 0 && strpos('/', $baseUrl) == strlen($baseUrl) - 1) {
-            $link = $baseUrl . trim($link, '/');
+        $baseUrl = $this->currentUrl;
+        if (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute                        
+            $urlParts = parse_url($baseUrl);
+            if (strpos($link,'//') === 0) { //begins with //                
+                $link = $urlParts['scheme'] . ':' . $link;
+            }elseif(strpos($link,'/') === 0){ //begins with /
+                $link = $urlParts['scheme'].'://'.$urlParts['host'].$link;
+            }else{ 
+                $link = $urlParts['scheme'].'://'.$urlParts['host'].$urlParts['path'].$link;
+            }
         }
+        
         return $link;
     }
 
