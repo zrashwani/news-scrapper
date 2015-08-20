@@ -93,12 +93,12 @@ class MicrodataAdapter extends AbstractAdapter
 
     public function extractBody(Crawler $crawler)
     {
-        $ret = null;
+        $ret = '';
 
         $crawler->filterXPath('//*[@itemprop="articleBody"]')
             ->each(
                 function ($node) use (&$ret) {
-                        $ret = $this->normalizeHtml($node);
+                        $ret .= $this->normalizeHtml($node);
                 }
             );
 
@@ -115,7 +115,7 @@ class MicrodataAdapter extends AbstractAdapter
                 )
                     ->each(
                         function ($node) use (&$ret) {
-                                    $ret = $this->normalizeHtml($node);
+                                    $ret .= $this->normalizeHtml($node);
                         }
                     );
                 
