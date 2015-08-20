@@ -125,6 +125,8 @@ class MicrodataAdapter extends AbstractAdapter
             }
         }
 
+        $ret = preg_replace('@\s{2,}@', ' ', $ret); //remove empty spaces from document
+        
         return $ret;
     }
 
