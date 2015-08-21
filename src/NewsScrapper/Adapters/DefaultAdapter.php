@@ -111,7 +111,7 @@ class DefaultAdapter extends AbstractAdapter {
 
                     $node_txt = $node->text();
                     if (strlen($node_txt) > strlen($ret)) {
-                        $ret = $this->normalizeHtml($node);
+                        $ret = $this->normalizeHtml($node->html());
                     }
                 }
         );

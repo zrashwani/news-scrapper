@@ -78,6 +78,9 @@ class Client
         $crawler->filter($linkSelector)
                 ->each(
                     function ($link_node) use (&$scrap_result, $theAdapter) {
+                    if(count($scrap_result)){
+                        return;
+                    }
                             $link = $theAdapter
                             ->normalizeLink($link_node->attr('href'));
 

@@ -97,8 +97,8 @@ class MicrodataAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//*[@itemprop="articleBody"]')
             ->each(
-                function ($node) use (&$ret) {
-                        $ret .= $this->normalizeHtml($node);
+                function (Crawler $node) use (&$ret) {
+                        $ret .= $node->html();
                 }
             );
 
@@ -115,17 +115,17 @@ class MicrodataAdapter extends AbstractAdapter
                 )
                     ->each(
                         function ($node) use (&$ret) {
-                                    $ret .= $this->normalizeHtml($node);
+                                    $ret .= $node->html();
                         }
                     );
                 
-                if (empty($ret) === false) { //if content found, exit loop
+                if (empty($ret) === false) { //if content found, exit loop                    
                     break;
                 }
             }
         }
-
-        $ret = preg_replace('@\s{2,}@', ' ', $ret); //remove empty spaces from document
+        
+        $ret = $this->normalizeHtml($ret);        
         
         return $ret;
     }
