@@ -77,7 +77,7 @@ abstract class AbstractAdapter
         foreach ($crawler as $domElement) {                        
             $html .= $domElement->ownerDocument->saveHTML($domElement->firstChild);
         }        
-        var_dump($html);
+       
         $html = $this->normalizeBodyLinks($html);
         $html = preg_replace('@\s{2,}@', ' ', $html); //remove empty spaces from document
         
