@@ -63,10 +63,13 @@ class Client
 
     /**
      * scrap one source of news
-     * @param array $source_info
-     * @return array
+     * @param string $baseUrl url to scrap list of news from
+     * @param $linkSelector css selector for news links in page
+     * @param int|NULL $limit limit of news article to scrap, 
+     *   if not set it will scrap all matching the selector
+     * @return array array of article items scrapped
      */
-    public function scrapLinkGroup($baseUrl, $linkSelector)
+    public function scrapLinkGroup($baseUrl, $linkSelector, $limit = null)
     {
         $crawler = $this->scrapClient->request('GET', $baseUrl);
         $this->setAdapter('Default'); //initialy
@@ -77,10 +80,10 @@ class Client
 
         $crawler->filter($linkSelector)
                 ->each(
-                    function ($link_node) use (&$scrap_result, $theAdapter) {
-                    if(count($scrap_result)){
-                        return;
-                    }
+                    function ($link_node) use (&$scrap_result, $theAdapter, &$limit) {
+                        if(!is_null($limit) && count($scrap_result) >= $limit){
+                            return;
+                        }
                             $link = $theAdapter
                             ->normalizeLink($link_node->attr('href'));
 

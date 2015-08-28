@@ -41,8 +41,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase {
     public function testScrapLinkGroup(){
        
         $client = new myClient();
-        $links_data = $client->scrapLinkGroup('http://php.net/', 'ul.nav a');
+        $links_data = $client->scrapLinkGroup('http://php.net/', 'ul.nav a',3);
         
         $this->assertNotEmpty($links_data);
+        $this->assertLessThanOrEqual(count($links_data), 3); //test limit param
     }
 }
