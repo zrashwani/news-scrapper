@@ -42,10 +42,14 @@ class DefaultAdapter extends AbstractAdapter {
                 ->each(function ($node) use (&$ret, $theAdapter) {
                     $img_src = $theAdapter->normalizeLink($node->attr('src')); //TODO: handle
                     $width_org = $height_org = 0;
-                    list($width, $height) = getimagesize($img_src);
+                    
+                    $url = pathinfo($img_src);                    
+                    list($width, $height) = getimagesize($url['dirname'].'/'.urlencode($url['basename']));                    
 
-                    if (empty($ret) === false) {
-                        list($width_org, $height_org) = getimagesize($ret);
+                    if (empty($ret) === false) {                        
+                        $url_ret = pathinfo($ret);
+                        list($width_org, $height_org) = getimagesize($url_ret['dirname'].
+                            '/'.urlencode($url_ret['basename']));                                                                    
                     }
 
                     if ($width > $width_org && $height > $height_org) {
