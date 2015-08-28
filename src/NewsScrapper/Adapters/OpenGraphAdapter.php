@@ -75,7 +75,6 @@ class OpenGraphAdapter extends AbstractAdapter
                             $ret = $image_src;
                         }                        
                     }
-                    
                 );
         }
 

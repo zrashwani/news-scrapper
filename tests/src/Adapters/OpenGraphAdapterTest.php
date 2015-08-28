@@ -5,9 +5,11 @@ namespace Zrashwani\NewsScrapper\Adapters;
 use Symfony\Component\DomCrawler\Crawler;
 use Zrashwani\NewsScrapper\Adapters;
 
-class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase {
+class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testExtractTitle() {
+    public function testExtractTitle() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
@@ -20,7 +22,8 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('OG Fallback Title', $title2);
     }
 
-    public function testExtractImage() {
+    public function testExtractImage() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
@@ -33,7 +36,8 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('test_image.png', $image2);
     }
 
-    public function testExtractDescription() {
+    public function testExtractDescription() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
@@ -41,7 +45,8 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertContains('description of og testing', $description);
     }
 
-    public function testExtractPublishDate() {
+    public function testExtractPublishDate() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
@@ -57,7 +62,8 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($publish_date2);        
     }
 
-    public function testExtractKeywords() {
+    public function testExtractKeywords() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
@@ -66,7 +72,8 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertArraySubset(['php'], $keywords); //TODO: revise spaces
     }
 
-    public function testExtractAuthor() {
+    public function testExtractAuthor() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
@@ -79,7 +86,8 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($author2);        
     }
 
-    public function testExtractBody() {
+    public function testExtractBody() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
@@ -87,7 +95,8 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($body);
     }
 
-    protected function getHtmlContent($filename = 'opengraph.html') {
+    protected function getHtmlContent($filename = 'opengraph.html') 
+    {
         return file_get_contents(__DIR__ . '/../../data/' . $filename);
     }
 

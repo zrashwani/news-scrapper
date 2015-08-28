@@ -5,9 +5,11 @@ namespace Zrashwani\NewsScrapper\Adapters;
 use Symfony\Component\DomCrawler\Crawler;
 use Zrashwani\NewsScrapper\Adapters;
 
-class HAtomAdapterTest extends \PHPUnit_Framework_TestCase {
+class HAtomAdapterTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testExtractTitle() {
+    public function testExtractTitle() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\HAtomAdapter();
 
@@ -15,7 +17,8 @@ class HAtomAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Microformats are amazing', $title);
     }
 
-    public function testExtractImage() {
+    public function testExtractImage() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\HAtomAdapter();
 
@@ -23,7 +26,8 @@ class HAtomAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('hatom.png', $image);
     }
 
-    public function testExtractDescription() {
+    public function testExtractDescription() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\HAtomAdapter();
 
@@ -31,7 +35,8 @@ class HAtomAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertContains('using microformats', $description);
     }
 
-    public function testExtractPublishDate() {
+    public function testExtractPublishDate() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\HAtomAdapter();
 
@@ -42,7 +47,8 @@ class HAtomAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected_date, $publish_date);
     }
 
-    public function testExtractKeywords() {
+    public function testExtractKeywords() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\HAtomAdapter();
 
@@ -51,7 +57,8 @@ class HAtomAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertArraySubset(['php','hatom'], $keywords);
     }
 
-    public function testExtractAuthor() {
+    public function testExtractAuthor() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\HAtomAdapter();
 
@@ -59,7 +66,8 @@ class HAtomAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('W. Developer', $author);
     }
 
-    public function testExtractBody() {
+    public function testExtractBody() 
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\HAtomAdapter();
 
@@ -67,7 +75,8 @@ class HAtomAdapterTest extends \PHPUnit_Framework_TestCase {
         $this->assertContains('Blah blah blah', $body);
     }
 
-    protected function getHtmlContent($filename = 'hatom.html') {
+    protected function getHtmlContent($filename = 'hatom.html') 
+    {
         return file_get_contents(__DIR__ . '/../../data/' . $filename);
     }
 

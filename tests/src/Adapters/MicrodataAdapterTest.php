@@ -4,9 +4,11 @@ namespace Zrashwani\NewsScrapper\Adapters;
 use Symfony\Component\DomCrawler\Crawler;
 use Zrashwani\NewsScrapper\Adapters;
 
-class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
+class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase
+{
     
-    public function testExtractTitle(){
+    public function testExtractTitle()
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
@@ -14,7 +16,8 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals('Test Headline', $title);
     }
     
-    public function testExtractImage(){
+    public function testExtractImage()
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();        
         
@@ -22,7 +25,8 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals('testimage.png', $image);
     }
     
-    public function testExtractPublishDate(){
+    public function testExtractPublishDate()
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
@@ -41,7 +45,8 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals($expected_date2, $publish_date2);
     }
     
-    public function testExtractDescription(){
+    public function testExtractDescription()
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
@@ -53,7 +58,8 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
         $this->assertStringStartsWith('Description Here', $description2);        
     }
     
-    public function testExtractKeywords(){
+    public function testExtractKeywords()
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
@@ -66,7 +72,8 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
         $this->assertArraySubset(['keyword21'], $keywords2);
     }
     
-    public function testExtractAuthor(){
+    public function testExtractAuthor()
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
@@ -79,15 +86,16 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals('zaid', $author2);
     }
     
-    public function testExtractBody(){
+    public function testExtractBody()
+    {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
         $body = $adapter->extractBody($crawler);        
         
-        $this->assertTrue(strpos($body, 'Testing body') !== false, 'body text basic test');
-        $this->assertTrue(strpos($body, 'alert') === false, 'trimming javascript content');
-        $this->assertTrue(strpos($body, '<script') === false, 'trimming javascript tags'); 
+        $this->assertContains('Testing body', $body, 'body text basic test');
+        $this->assertNotContains('alert', $body, 'trimming javascript content');
+        $this->assertNotContains('<script', $body, 'trimming javascript tags'); 
         
         $crawler2 = new Crawler($this->getHtmlContent('microdata2.html'));
         $body2 = $adapter->extractBody($crawler2);
@@ -95,7 +103,8 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase{
         $this->assertNotEmpty($body2);
     }
     
-    protected function getHtmlContent($filename = 'microdata.html'){
+    protected function getHtmlContent($filename = 'microdata.html')
+    {
         return file_get_contents(__DIR__ . '/../../data/' . $filename);
     }
 }

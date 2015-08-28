@@ -124,8 +124,8 @@ class MicrodataAdapter extends AbstractAdapter
                 }
             }
         }
-        
-        $ret = $this->normalizeHtml($ret);        
+
+        $ret = $this->normalizeHtml($ret);    
         
         return $ret;
     }

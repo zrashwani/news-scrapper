@@ -39,9 +39,9 @@ abstract class AbstractAdapter
             $urlParts = parse_url($baseUrl);
             $scheme = isset($urlParts['scheme'])===true?$urlParts['scheme']:'http';
             $host = isset($urlParts['host'])===true?$urlParts['host']:'';
-            if (strpos($link,'//') === 0) { //begins with //                
+            if (strpos($link, '//') === 0) { //begins with //                
                 $link = $scheme . ':' . $link;
-            }elseif(strpos($link,'/') === 0){ //begins with /
+            }elseif(strpos($link, '/') === 0) { //begins with /
                 $link = $scheme.'://'.$host.$link;
             }else{ 
                 $link = $scheme.'://'.$host.$urlParts['path'].$link;
@@ -60,7 +60,7 @@ abstract class AbstractAdapter
     public function normalizeHtml($raw_html)
     {
         $crawler = new Crawler($raw_html);
-        $disallowed_tags = ['script', 'style', 'iframe'];
+        $disallowed_tags = ['script', 'style'];
         
         $crawler
             ->filter(implode(',', $disallowed_tags))
@@ -84,14 +84,15 @@ abstract class AbstractAdapter
         return $html;
     }
     
-    public function normalizeBodyLinks($html){         
-        if(empty($html)===true){ //if html is empty, do nothing
+    public function normalizeBodyLinks($html)
+    {         
+        if(empty($html)===true) { //if html is empty, do nothing
             return $html;
         }
         
-        $xmlDoc = new \DOMDocument('1.0','UTF-8');
+        $xmlDoc = new \DOMDocument('1.0', 'UTF-8');
         libxml_use_internal_errors(true);
-        $xmlDoc->loadHTML( $html ); 
+        $xmlDoc->loadHTML($html); 
         libxml_clear_errors();
         
         $xpath = new \DOMXPath($xmlDoc);
@@ -110,7 +111,7 @@ abstract class AbstractAdapter
         foreach($img_entries as $entry){
                 $src = $entry->getAttribute('src');
                 $normalized_src = $this->normalizeLink($src);                
-                $entry->setAttribute('src',$normalized_src);
+                $entry->setAttribute('src', $normalized_src);
         }
         
         $final_html = $xmlDoc->saveHTML();
@@ -119,9 +120,11 @@ abstract class AbstractAdapter
         
         $ret = '';
         //TODO: search for better way
-        $html_crawler->filter('body')->each(function($node) use(&$ret){
-            $ret = $node->html();
-        });
+        $html_crawler->filter('body')->each(
+            function ($node) use (&$ret) {
+                $ret = $node->html();
+            }
+        );
         
         return $ret;
     }
@@ -131,7 +134,8 @@ abstract class AbstractAdapter
      * @param array $keywords
      * @return array
      */
-    public function normalizeKeywords(array $keywords){
+    public function normalizeKeywords(array $keywords)
+    {
         foreach($keywords as $k => $word){
             $keywords[$k] = trim($word);
         }
