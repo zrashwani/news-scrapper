@@ -4,6 +4,7 @@ namespace Zrashwani\NewsScrapper;
 
 use Goutte\Client as GoutteClient;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\BrowserKit\CookieJar;
 
 /**
  * Client to scrap article/news contents from serveral news sources
@@ -25,13 +26,16 @@ class Client
     /**
      * Constructor
      */
-    public function __construct($adapter_name = null)
-    {
-        $this->scrapClient = new GoutteClient();
+    public function __construct($adapter_name = null, CookieJar $cookie_jar = null)
+    {        
+        $this->scrapClient = new GoutteClient([], null, $cookie_jar);
+        
         $this->scrapClient->followRedirects();
-        $this->scrapClient->getClient()->setDefaultOption('config/curl/' . CURLOPT_SSL_VERIFYHOST, false);
-        $this->scrapClient->getClient()->setDefaultOption('config/curl/' . CURLOPT_SSL_VERIFYPEER, false);
-
+        $this->scrapClient->getClient()->setDefaultOption('config/curl/' . 
+                CURLOPT_SSL_VERIFYHOST, false);
+        $this->scrapClient->getClient()->setDefaultOption('config/curl/' . 
+                CURLOPT_SSL_VERIFYPEER, false);
+        
         $this->setAdapter($adapter_name);
     }
 
@@ -70,7 +74,7 @@ class Client
      * @return array array of article items scrapped
      */
     public function scrapLinkGroup($baseUrl, $linkSelector, $limit = null)
-    {
+    {        
         $crawler = $this->scrapClient->request('GET', $baseUrl);
         $this->setAdapter('Default'); //initialy
 

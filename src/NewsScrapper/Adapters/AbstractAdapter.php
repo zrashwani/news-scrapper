@@ -60,7 +60,7 @@ abstract class AbstractAdapter
     public function normalizeHtml($raw_html)
     {
         $crawler = new Crawler($raw_html);
-        $disallowed_tags = ['script', 'style'];
+        $disallowed_tags = ['script', 'style', 'meta', 'div'];
         
         $crawler
             ->filter(implode(',', $disallowed_tags))
@@ -72,12 +72,12 @@ abstract class AbstractAdapter
                     }
                 }
             );
-
+        
         $html = '';
         foreach ($crawler as $domElement) {                        
             $html .= $domElement->ownerDocument->saveHTML($domElement->firstChild);
-        }        
-       
+        }
+        
         $html = $this->normalizeBodyLinks($html);
         $html = preg_replace('@\s{2,}@', ' ', $html); //remove empty spaces from document
         

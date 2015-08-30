@@ -96,11 +96,13 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Testing body', $body, 'body text basic test');
         $this->assertNotContains('alert', $body, 'trimming javascript content');
         $this->assertNotContains('<script', $body, 'trimming javascript tags'); 
+        $this->assertNotContains('<div', $body, 'trimming div tags'); 
         
         $crawler2 = new Crawler($this->getHtmlContent('microdata2.html'));
         $body2 = $adapter->extractBody($crawler2);
         
         $this->assertNotEmpty($body2);
+        $this->assertContains("Here goes", $body2);
     }
     
     protected function getHtmlContent($filename = 'microdata.html')
