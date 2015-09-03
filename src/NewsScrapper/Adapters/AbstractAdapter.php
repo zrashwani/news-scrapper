@@ -59,6 +59,9 @@ abstract class AbstractAdapter
      */
     public function normalizeHtml($raw_html)
     {
+        if(empty($raw_html)){
+            return $raw_html;
+        }
         $crawler = new Crawler($raw_html);
         $disallowed_tags = ['script', 'style', 'meta', 'div'];
         
@@ -72,12 +75,7 @@ abstract class AbstractAdapter
                     }
                 }
             );
-        
-        $html = '';
-        foreach ($crawler as $domElement) {                        
-            $html .= $domElement->ownerDocument->saveHTML($domElement->firstChild);
-        }
-        
+        $html = $crawler->html();
         $html = $this->normalizeBodyLinks($html);
         $html = preg_replace('@\s{2,}@', ' ', $html); //remove empty spaces from document
         
@@ -85,7 +83,7 @@ abstract class AbstractAdapter
     }
     
     public function normalizeBodyLinks($html)
-    {         
+    {              
         if(empty($html)===true) { //if html is empty, do nothing
             return $html;
         }
@@ -114,7 +112,7 @@ abstract class AbstractAdapter
                 $entry->setAttribute('src', $normalized_src);
         }
         
-        $final_html = $xmlDoc->saveHTML();
+        $final_html = $xmlDoc->saveHTML();        
         
         $html_crawler = new Crawler($final_html);
         
