@@ -12,7 +12,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $client = new myClient();
-        $this->assertInstanceOf(myClient::class, $client);
+        $this->assertInstanceOf("Zrashwani\NewsScrapper\Client", $client);
     }
     
     public function testGetAdapter()
@@ -20,7 +20,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client = new myClient('Microdata');
         $adapter = $client->getAdapter();
         
-        $this->assertInstanceOf(Adapters\MicrodataAdapter::class, $adapter);
+        $this->assertInstanceOf("Zrashwani\NewsScrapper\Adapters\MicrodataAdapter", $adapter);
     }
     
     public function testSetAdapter()
@@ -28,8 +28,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client = new myClient();
         
         $ret = $client->setAdapter('HAtom');
-        $this->assertInstanceOf(myClient::class, $ret);
-        $this->assertInstanceOf(Adapters\HAtomAdapter::class, $client->getAdapter());
+        
+        $this->assertInstanceOf("Zrashwani\NewsScrapper\Client", $ret);
+        $this->assertInstanceOf("Zrashwani\NewsScrapper\Adapters\HAtomAdapter", $client->getAdapter());
     }
     
     public function testGetLinkData()
