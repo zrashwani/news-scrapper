@@ -181,6 +181,8 @@ class MicrodataAdapter extends AbstractAdapter
                     }
                 );
         }
+        $ret = preg_replace('@\s{2,}@', ' ',$ret);
+        
         return $ret;
     }
 }
