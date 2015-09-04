@@ -63,7 +63,7 @@ abstract class AbstractAdapter
             return $raw_html;
         }
         $crawler = new Crawler($raw_html);
-        $disallowed_tags = ['script', 'style', 'meta', 'div'];
+        $disallowed_tags = ['script', 'style', 'meta'];
         
         $crawler
             ->filter(implode(',', $disallowed_tags))
