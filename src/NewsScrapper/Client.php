@@ -67,19 +67,18 @@ class Client
 
     /**
      * scrap one source of news
-     * @param string                                           $baseUrl url to scrap list of news from
-     * @param $linkSelector css selector for news links in page
-     * @param int|NULL                                         $limit   limit of news article to scrap,  if not set it will scrap all matching the selector if not set it will scrap all matching the selector
+     * @param string    $baseUrl       url to scrap list of news from
+     * @param string    $linkSelector  css selector for news links in page
+     * @param int|NULL  $limit         limit of news article to scrap,  if not set it will scrap all matching the selector if not set it will scrap all matching the selector
      *   if not set it will scrap all matching the selector
      * @return array array of article items scrapped
      */
     public function scrapLinkGroup($baseUrl, $linkSelector, $limit = null)
     {        
-        $crawler = $this->scrapClient->request('GET', $baseUrl);
-        $this->setAdapter('Default'); //initialy
+        $crawler = $this->scrapClient->request('GET', $baseUrl);        
 
         $scrap_result = array();
-        $theAdapter = $this->getAdapter();
+        $theAdapter = new Adapters\DefaultAdapter();
         $theAdapter->currentUrl = $baseUrl;
 
         $crawler->filter($linkSelector)
@@ -105,7 +104,7 @@ class Client
      * @return \stdClass
      */
     public function getLinkData($link)
-    {
+    {        
         $article_info = new \stdClass();
         $article_info->url = $link;
 
@@ -131,29 +130,30 @@ class Client
      * @param Crawler                                          $pageCrawler
      * @param \Zrashwani\NewsScrapper\Adapters\AbstractAdapter $adapter      adapter used for scrapping
      */
-    protected function extractPageData($article_info, Crawler $pageCrawler, Adapters\AbstractAdapter $adapter)
-    {
-        $adapter->currentUrl = $article_info->url; //associate link url to adapter
+    protected function extractPageData($article_info, Crawler $pageCrawler, 
+            Adapters\AbstractAdapter $adapter)
+    {        
+        $adapter->currentUrl = $article_info->url; //associate link url to adapter        
         
-        if (!isset($article_info->title)) {
+        if (empty($article_info->title) === true) {
             $article_info->title = $adapter->extractTitle($pageCrawler);
         }
-        if (!isset($article_info->body)) {
+        if (empty($article_info->body) === true) {
             $article_info->body = $adapter->extractBody($pageCrawler);
         }
-        if (!isset($article_info->image)) {
+        if (empty($article_info->image) === true) {
             $article_info->image = $adapter->extractImage($pageCrawler, $article_info->url);
         }
-        if (!isset($article_info->description)) {
+        if (empty($article_info->description) === true) {
             $article_info->description = $adapter->extractDescription($pageCrawler);
         }
         if (!isset($article_info->keywords) || count($article_info->keywords) === 0) {
             $article_info->keywords = $adapter->extractKeywords($pageCrawler);
         }
-        if (!isset($article_info->author)) {
+        if (empty($article_info->author) === true) {
             $article_info->author = $adapter->extractAuthor($pageCrawler);
         }
-        if (!isset($article_info->publishDate)) {
+        if (empty($article_info->publishDate) === true) {
             $article_info->publishDate = $adapter->extractPublishDate($pageCrawler);
         }
     }
