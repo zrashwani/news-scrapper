@@ -59,7 +59,7 @@ class Client
         if (class_exists($adapterClass)) {
             $this->adapter = new $adapterClass();
         } else {
-            //smart adapter is asumed
+            $this->adapter = null;
         }
 
         return $this;
@@ -91,6 +91,7 @@ class Client
                                 ->normalizeLink($link_node->attr('href'));
 
                             $article_info = $this->getLinkData($link);
+                            $this->setAdapter(''); //reset default adapter after scrapping one link
                             $scrap_result[] = $article_info;
                 }
             );
@@ -117,7 +118,7 @@ class Client
             foreach ($this->adaptersList as $adapter_name) {
                 $this->setAdapter($adapter_name);
                 $this->extractPageData($article_info, $pageCrawler, $this->getAdapter());
-            }
+            }                        
         }
 
 
