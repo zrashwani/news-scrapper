@@ -42,8 +42,10 @@ class MicrodataAdapter extends AbstractAdapter
                             $ret = $node->attr('src');
                 }
             );
-        $ret = $this->normalizeLink($ret);
-        
+            
+        if(empty($ret) === false){
+            $ret = $this->normalizeLink($ret);
+        }
         return $ret;
     }
 
