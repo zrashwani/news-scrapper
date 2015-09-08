@@ -58,6 +58,7 @@ class OpenGraphAdapter extends AbstractAdapter
     public function extractImage(Crawler $crawler)
     {
         $ret = null;
+        $theAdapter = $this;
 
         $crawler->filterXPath("//head/meta[@property='og:image']")
             ->each(
@@ -66,18 +67,35 @@ class OpenGraphAdapter extends AbstractAdapter
                 }
             );
         
-        if (empty($ret) === true) { //todo: add image size restriction and priorities
+        if (empty($ret) === true) {
             $crawler->filterXPath('//img')
                 ->each(
-                    function ($node) use (&$ret) {
-                        $image_src = $node->attr('src');
-                        if (empty($ret) === true) {
-                            $ret = $image_src;
-                        }                        
-                    }
-                );
-        }
+                function ($node) use (&$ret, $theAdapter) {
+                        $img_src = $theAdapter->normalizeLink($node->attr('src')); 
+                        $width_org = $height_org = 0;
+                    
+                        $url = pathinfo($img_src);                    
+                        list($width, $height) = getimagesize($url['dirname'].'/'.urlencode($url['basename']));
 
+                    if (empty($ret) === false) {                        
+                        $url_ret = pathinfo($ret);
+                        list($width_org, $height_org) = getimagesize(
+                        $url_ret['dirname'].
+                        '/'.urlencode($url_ret['basename'])
+                        );                                                                    
+                    }
+
+                    if ($width > $width_org && $height > $height_org
+                            && $width > 200 && $height > 200) {
+                        $ret = $img_src;
+                    }
+                });
+        }
+        
+        if(empty($ret) === false){
+            $ret = $this->normalizeLink($ret);
+        }
+        
         return $ret;
     }
 

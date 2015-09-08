@@ -25,15 +25,17 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
     public function testExtractImage() 
     {
         $crawler = new Crawler($this->getHtmlContent());
-        $adapter = new Adapters\OpenGraphAdapter();
+        $adapter = new Adapters\OpenGraphAdapter();        
 
         $image = $adapter->extractImage($crawler);
         $this->assertEquals('http://ogtest.com/og.jpg', $image);
         
         $crawler2 = new Crawler($this->getHtmlContent('opengraph2.html'));
+        $adapter->currentUrl = 'https://github.com';
+        
         $image2 = $adapter->extractImage($crawler2);
         
-        $this->assertEquals('test_image.png', $image2);
+        $this->assertEquals('https://github.com/logo.png', $image2); //emulating real image path
     }
 
     public function testExtractDescription() 

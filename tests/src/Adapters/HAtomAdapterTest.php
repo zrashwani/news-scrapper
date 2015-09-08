@@ -21,9 +21,10 @@ class HAtomAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\HAtomAdapter();
+        $adapter->currentUrl = 'http://example.com';
 
         $image = $adapter->extractImage($crawler);
-        $this->assertEquals('hatom.png', $image);
+        $this->assertEquals('http://example.com/hatom.png', $image);
     }
 
     public function testExtractDescription() 

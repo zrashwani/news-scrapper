@@ -94,6 +94,10 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $adapter->currentUrl = 'https://securedurl.com/';
         $url4 = $adapter->normalizeLink("//example3.com");
         $this->assertEquals('https://example3.com', $url4);
+        
+        $adapter->currentUrl = 'http://example5.com';
+        $url5 = $adapter->normalizeLink("img.png");
+        $this->assertEquals('http://example5.com/img.png', $url5);
     }
     
     public function testNormalizeBodyLinks()

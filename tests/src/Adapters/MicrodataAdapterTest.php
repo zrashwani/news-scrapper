@@ -19,16 +19,17 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase
     public function testExtractImage()
     {
         $crawler = new Crawler($this->getHtmlContent());
-        $adapter = new Adapters\MicrodataAdapter();        
+        $adapter = new Adapters\MicrodataAdapter();
+        $adapter->currentUrl = 'http://example.com/';
         
         $image = $adapter->extractImage($crawler);
-        $this->assertEquals('testimage.png', $image);
+        $this->assertEquals('http://example.com/testimage.png', $image);
     }
     
     public function testExtractPublishDate()
     {
         $crawler = new Crawler($this->getHtmlContent());
-        $adapter = new Adapters\MicrodataAdapter();
+        $adapter = new Adapters\MicrodataAdapter();        
         
         $publish_date = $adapter->extractPublishDate($crawler);
         $expected_obj = new \DateTime('2015-10-10 20:00:00');

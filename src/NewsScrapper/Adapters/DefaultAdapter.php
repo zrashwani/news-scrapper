@@ -48,7 +48,7 @@ class DefaultAdapter extends AbstractAdapter
                         $width_org = $height_org = 0;
                     
                         $url = pathinfo($img_src);                    
-                        list($width, $height) = getimagesize($url['dirname'].'/'.urlencode($url['basename']));                    
+                        list($width, $height) = getimagesize($url['dirname'].'/'.urlencode($url['basename']));
 
                     if (empty($ret) === false) {                        
                         $url_ret = pathinfo($ret);
