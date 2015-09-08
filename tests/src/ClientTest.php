@@ -37,7 +37,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $client = new myClient();
         
-        $link_data = $client->getLinkData('http://google.com/');        
+        $link_data = $client->getLinkData('http://google.com/');
         $this->assertStringStartsWith('Google', $link_data->title);
         
         $link_data2 = $client->getLinkData('http://php.net/');

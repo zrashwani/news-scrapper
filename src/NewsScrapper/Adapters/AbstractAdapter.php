@@ -34,16 +34,16 @@ abstract class AbstractAdapter
      */
     public function normalizeLink($link)
     {
-        $baseUrl = $this->currentUrl;        
-        if (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute                        
+        $baseUrl = $this->currentUrl;
+        if (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
             $urlParts = parse_url($baseUrl);
             $scheme = isset($urlParts['scheme'])===true?$urlParts['scheme']:'http';
             $host = isset($urlParts['host'])===true?$urlParts['host']:'';
-            if (strpos($link, '//') === 0) { //begins with //                
+            if (strpos($link, '//') === 0) { //begins with //
                 $link = $scheme . ':' . $link;
-            }elseif(strpos($link, '/') === 0) { //begins with /
+            } elseif (strpos($link, '/') === 0) { //begins with /
                 $link = $scheme.'://'.$host.$link;
-            }else{ 
+            } else {
                 $path = isset($urlParts['path'])===true?$urlParts['path']:'/';
                 $link = $scheme.'://'.$host.$path.$link;
             }
@@ -60,7 +60,7 @@ abstract class AbstractAdapter
      */
     public function normalizeHtml($raw_html)
     {
-        if(empty($raw_html)){
+        if (empty($raw_html)) {
             return $raw_html;
         }
         $crawler = new Crawler($raw_html);
@@ -84,22 +84,22 @@ abstract class AbstractAdapter
     }
     
     public function normalizeBodyLinks($html)
-    {              
-        if(empty($html)===true) { //if html is empty, do nothing
+    {
+        if (empty($html)===true) { //if html is empty, do nothing
             return $html;
         }
         
         $xmlDoc = new \DOMDocument('1.0', 'UTF-8');
         libxml_use_internal_errors(true);
-        $xmlDoc->loadHTML($html); 
+        $xmlDoc->loadHTML($html);
         libxml_clear_errors();
         
         $xpath = new \DOMXPath($xmlDoc);
         $lnk_entries = $xpath->query('//a');
         
-        foreach($lnk_entries as $entry){
-                $href = $entry->getAttribute('href');                
-                $normalized_href = $this->normalizeLink($href);                
+        foreach ($lnk_entries as $entry) {
+                $href = $entry->getAttribute('href');
+                $normalized_href = $this->normalizeLink($href);
                 
                 $entry->setAttribute('href', $normalized_href);
                 $entry->setAttribute('target', '_blank');
@@ -107,13 +107,13 @@ abstract class AbstractAdapter
         
         $img_entries = $xpath->query('//img');
         
-        foreach($img_entries as $entry){
+        foreach ($img_entries as $entry) {
                 $src = $entry->getAttribute('src');
-                $normalized_src = $this->normalizeLink($src);                
+                $normalized_src = $this->normalizeLink($src);
                 $entry->setAttribute('src', $normalized_src);
         }
         
-        $final_html = $xmlDoc->saveHTML();        
+        $final_html = $xmlDoc->saveHTML();
         
         $html_crawler = new Crawler($final_html);
         
@@ -135,7 +135,7 @@ abstract class AbstractAdapter
      */
     public function normalizeKeywords(array $keywords)
     {
-        foreach($keywords as $k => $word){
+        foreach ($keywords as $k => $word) {
             $keywords[$k] = trim($word);
         }
         

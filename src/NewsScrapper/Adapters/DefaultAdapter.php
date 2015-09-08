@@ -16,7 +16,7 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractTitle(Crawler $crawler) 
+    public function extractTitle(Crawler $crawler)
     {
         $ret = null;
 
@@ -36,7 +36,7 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractImage(Crawler $crawler) 
+    public function extractImage(Crawler $crawler)
     {
         $ret = null;
         $theAdapter = $this;
@@ -47,15 +47,15 @@ class DefaultAdapter extends AbstractAdapter
                         $img_src = $theAdapter->normalizeLink($node->attr('src')); //TODO: handle
                         $width_org = $height_org = 0;
                     
-                        $url = pathinfo($img_src);                    
+                        $url = pathinfo($img_src);
                         list($width, $height) = getimagesize($url['dirname'].'/'.urlencode($url['basename']));
 
-                    if (empty($ret) === false) {                        
+                    if (empty($ret) === false) {
                         $url_ret = pathinfo($ret);
                         list($width_org, $height_org) = getimagesize(
-                        $url_ret['dirname'].
-                        '/'.urlencode($url_ret['basename'])
-                        );                                                                    
+                            $url_ret['dirname'].
+                            '/'.urlencode($url_ret['basename'])
+                        );
                     }
 
                     if ($width > $width_org && $height > $height_org) {
@@ -72,7 +72,7 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractDescription(Crawler $crawler) 
+    public function extractDescription(Crawler $crawler)
     {
         $ret = null;
 
@@ -80,7 +80,7 @@ class DefaultAdapter extends AbstractAdapter
             ->each(
                 function ($node) use (&$ret) {
                             $ret = $node->attr('content');
-                    }
+                }
             );
 
         return $ret;
@@ -91,7 +91,7 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return array
      */
-    public function extractKeywords(Crawler $crawler) 
+    public function extractKeywords(Crawler $crawler)
     {
         $ret = array();
 
@@ -114,7 +114,7 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractBody(Crawler $crawler) 
+    public function extractBody(Crawler $crawler)
     {
         $ret = null;
 
@@ -137,7 +137,7 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return \DateTime
      */
-    public function extractPublishDate(Crawler $crawler) 
+    public function extractPublishDate(Crawler $crawler)
     {
         $date_str = null;
 
@@ -169,7 +169,7 @@ class DefaultAdapter extends AbstractAdapter
      * @param Crawler $crawler
      * @return string
      */
-    public function extractAuthor(Crawler $crawler) 
+    public function extractAuthor(Crawler $crawler)
     {
         $ret = null;
         $crawler->filterXPath("//head/meta[@name='author']")
@@ -182,5 +182,4 @@ class DefaultAdapter extends AbstractAdapter
 
         return $ret;
     }
-
 }

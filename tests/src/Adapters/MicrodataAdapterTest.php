@@ -29,7 +29,7 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase
     public function testExtractPublishDate()
     {
         $crawler = new Crawler($this->getHtmlContent());
-        $adapter = new Adapters\MicrodataAdapter();        
+        $adapter = new Adapters\MicrodataAdapter();
         
         $publish_date = $adapter->extractPublishDate($crawler);
         $expected_obj = new \DateTime('2015-10-10 20:00:00');
@@ -51,12 +51,12 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
-        $description = $adapter->extractDescription($crawler);        
+        $description = $adapter->extractDescription($crawler);
         $this->assertEquals('test description text', $description);
         
         $crawler2 = new Crawler($this->getHtmlContent('microdata2.html'));
         $description2 = $adapter->extractDescription($crawler2);
-        $this->assertStringStartsWith('Description Here', $description2);        
+        $this->assertStringStartsWith('Description Here', $description2);
     }
     
     public function testExtractKeywords()
@@ -78,7 +78,7 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
-        $author = $adapter->extractAuthor($crawler);        
+        $author = $adapter->extractAuthor($crawler);
         $this->assertEquals('Dummy Author', $author);
         
         $crawler2 = new Crawler($this->getHtmlContent('microdata2.html'));
@@ -92,12 +92,12 @@ class MicrodataAdapterTest extends \PHPUnit_Framework_TestCase
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\MicrodataAdapter();
         
-        $body = $adapter->extractBody($crawler);        
+        $body = $adapter->extractBody($crawler);
         
         $this->assertContains('Testing body', $body, 'body text basic test');
         $this->assertNotContains('alert', $body, 'trimming javascript content');
-        $this->assertNotContains('<script', $body, 'trimming javascript tags'); 
-        //$this->assertNotContains('<div', $body, 'trimming div tags'); 
+        $this->assertNotContains('<script', $body, 'trimming javascript tags');
+        //$this->assertNotContains('<div', $body, 'trimming div tags');
         
         $crawler2 = new Crawler($this->getHtmlContent('microdata2.html'));
         $body2 = $adapter->extractBody($crawler2);

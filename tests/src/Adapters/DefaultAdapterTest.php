@@ -8,7 +8,7 @@ use Zrashwani\NewsScrapper\Adapters;
 class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testExtractTitle() 
+    public function testExtractTitle()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\DefaultAdapter();
@@ -17,7 +17,7 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Default title', $title);
     }
 
-    public function testExtractImage() 
+    public function testExtractImage()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\DefaultAdapter();
@@ -26,7 +26,7 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://www.google.com/images/srpr/logo11w.png', $image);
     }
 
-    public function testExtractDescription() 
+    public function testExtractDescription()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\DefaultAdapter();
@@ -35,7 +35,7 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('default description', $description);
     }
 
-    public function testExtractPublishDate() 
+    public function testExtractPublishDate()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\DefaultAdapter();
@@ -47,7 +47,7 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected_date, $publish_date);
     }
 
-    public function testExtractKeywords() 
+    public function testExtractKeywords()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\DefaultAdapter();
@@ -57,21 +57,21 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertArraySubset(['php','default'], $keywords);
     }
 
-    public function testExtractAuthor() 
+    public function testExtractAuthor()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\DefaultAdapter();
 
-        $author = $adapter->extractAuthor($crawler);        
+        $author = $adapter->extractAuthor($crawler);
         $this->assertEquals('Mr. HTML', $author);
     }
 
-    public function testExtractBody() 
+    public function testExtractBody()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\DefaultAdapter();
 
-        $body = $adapter->extractBody($crawler);        
+        $body = $adapter->extractBody($crawler);
         $this->assertContains('article body here', $body);
     }
     
@@ -105,16 +105,15 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $adapter = new Adapters\DefaultAdapter();
         $adapter->currentUrl = 'http://example.com';
         
-        $html = $this->getHtmlContent();        
+        $html = $this->getHtmlContent();
         $html_normalized = $adapter->normalizeBodyLinks($html);
         
         $this->assertContains("http://example.com/relative-url", $html_normalized);
         $this->assertContains("http://example.com/another-sub/url", $html_normalized);
     }
 
-    protected function getHtmlContent($filename = 'default.html') 
+    protected function getHtmlContent($filename = 'default.html')
     {
         return file_get_contents(__DIR__ . '/../../data/' . $filename);
     }
-
 }

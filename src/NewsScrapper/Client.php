@@ -27,14 +27,20 @@ class Client
      * Constructor
      */
     public function __construct($adapter_name = null, CookieJar $cookie_jar = null)
-    {        
+    {
         $this->scrapClient = new GoutteClient([], null, $cookie_jar);
         
         $this->scrapClient->followRedirects();
-        $this->scrapClient->getClient()->setDefaultOption('config/curl/' . 
-                CURLOPT_SSL_VERIFYHOST, false);
-        $this->scrapClient->getClient()->setDefaultOption('config/curl/' . 
-                CURLOPT_SSL_VERIFYPEER, false);
+        $this->scrapClient->getClient()->setDefaultOption(
+            'config/curl/' .
+            CURLOPT_SSL_VERIFYHOST,
+            false
+        );
+        $this->scrapClient->getClient()->setDefaultOption(
+            'config/curl/' .
+            CURLOPT_SSL_VERIFYPEER,
+            false
+        );
         
         $this->setAdapter($adapter_name);
     }
@@ -67,15 +73,15 @@ class Client
 
     /**
      * scrap one source of news
-     * @param string    $baseUrl       url to scrap list of news from
-     * @param string    $linkSelector  css selector for news links in page
-     * @param int|NULL  $limit         limit of news article to scrap,  if not set it will scrap all matching the selector if not set it will scrap all matching the selector
+     * @param string   $baseUrl      url to scrap list of news from
+     * @param string   $linkSelector css selector for news links in page
+     * @param int|NULL $limit        limit of news article to scrap,  if not set it will scrap all matching the selector if not set it will scrap all matching the selector if not set it will scrap all matching the selector if not set it will scrap all matching the selector
      *   if not set it will scrap all matching the selector
      * @return array array of article items scrapped
      */
     public function scrapLinkGroup($baseUrl, $linkSelector, $limit = null)
-    {        
-        $crawler = $this->scrapClient->request('GET', $baseUrl);        
+    {
+        $crawler = $this->scrapClient->request('GET', $baseUrl);
 
         $scrap_result = array();
         $theAdapter = new Adapters\DefaultAdapter();
@@ -84,7 +90,7 @@ class Client
         $crawler->filter($linkSelector)
             ->each(
                 function ($link_node) use (&$scrap_result, $theAdapter, &$limit) {
-                    if(!is_null($limit) && count($scrap_result) >= $limit) {
+                    if (!is_null($limit) && count($scrap_result) >= $limit) {
                         return;
                     }
                             $link = $theAdapter
@@ -105,20 +111,20 @@ class Client
      * @return \stdClass
      */
     public function getLinkData($link)
-    {        
+    {
         $article_info = new \stdClass();
         $article_info->url = $link;
 
-        $pageCrawler = $this->scrapClient->request('GET', $article_info->url);        
+        $pageCrawler = $this->scrapClient->request('GET', $article_info->url);
 
-        $selected_adapter = $this->getAdapter();         
+        $selected_adapter = $this->getAdapter();
         if ($selected_adapter !== null) {
             $this->extractPageData($article_info, $pageCrawler, $selected_adapter);
         } else { //apply smart scrapping by iterating over all adapters
             foreach ($this->adaptersList as $adapter_name) {
                 $this->setAdapter($adapter_name);
                 $this->extractPageData($article_info, $pageCrawler, $this->getAdapter());
-            }                        
+            }
         }
 
 
@@ -131,10 +137,12 @@ class Client
      * @param Crawler                                          $pageCrawler
      * @param \Zrashwani\NewsScrapper\Adapters\AbstractAdapter $adapter      adapter used for scrapping
      */
-    protected function extractPageData($article_info, Crawler $pageCrawler, 
-            Adapters\AbstractAdapter $adapter)
-    {        
-        $adapter->currentUrl = $article_info->url; //associate link url to adapter        
+    protected function extractPageData(
+        $article_info,
+        Crawler $pageCrawler,
+        Adapters\AbstractAdapter $adapter
+    ) {
+        $adapter->currentUrl = $article_info->url; //associate link url to adapter
         
         if (empty($article_info->title) === true) {
             $article_info->title = $adapter->extractTitle($pageCrawler);

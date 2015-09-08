@@ -70,29 +70,31 @@ class OpenGraphAdapter extends AbstractAdapter
         if (empty($ret) === true) {
             $crawler->filterXPath('//img')
                 ->each(
-                function ($node) use (&$ret, $theAdapter) {
-                        $img_src = $theAdapter->normalizeLink($node->attr('src')); 
+                    function ($node) use (&$ret, $theAdapter) {
+                        $img_src = $theAdapter->normalizeLink($node->attr('src'));
                         $width_org = $height_org = 0;
                     
-                        $url = pathinfo($img_src);                    
+                        $url = pathinfo($img_src);
                         list($width, $height) = getimagesize($url['dirname'].'/'.urlencode($url['basename']));
 
-                    if (empty($ret) === false) {                        
-                        $url_ret = pathinfo($ret);
-                        list($width_org, $height_org) = getimagesize(
-                        $url_ret['dirname'].
-                        '/'.urlencode($url_ret['basename'])
-                        );                                                                    
-                    }
+                        if (empty($ret) === false) {
+                            $url_ret = pathinfo($ret);
+                            list($width_org, $height_org) = getimagesize(
+                                $url_ret['dirname'].
+                                '/'.urlencode($url_ret['basename'])
+                            );
+                        }
 
-                    if ($width > $width_org && $height > $height_org
-                            && $width > 200 && $height > 200) {
-                        $ret = $img_src;
+                        if ($width > $width_org && $height > $height_org
+                            && $width > 200 && $height > 200
+                        ) {
+                            $ret = $img_src;
+                        }
                     }
-                });
+                );
         }
         
-        if(empty($ret) === false){
+        if (empty($ret) === false) {
             $ret = $this->normalizeLink($ret);
         }
         
@@ -126,7 +128,7 @@ class OpenGraphAdapter extends AbstractAdapter
             ->each(
                 function ($node) use (&$ret) {
                 
-                        $node_txt = trim($node->attr('content'));                        
+                        $node_txt = trim($node->attr('content'));
                     if (!empty($node_txt)) {
                         $ret = explode(',', $node_txt);
                         

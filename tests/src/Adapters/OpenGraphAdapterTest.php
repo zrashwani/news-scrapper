@@ -8,7 +8,7 @@ use Zrashwani\NewsScrapper\Adapters;
 class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testExtractTitle() 
+    public function testExtractTitle()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
@@ -22,10 +22,10 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('OG Fallback Title', $title2);
     }
 
-    public function testExtractImage() 
+    public function testExtractImage()
     {
         $crawler = new Crawler($this->getHtmlContent());
-        $adapter = new Adapters\OpenGraphAdapter();        
+        $adapter = new Adapters\OpenGraphAdapter();
 
         $image = $adapter->extractImage($crawler);
         $this->assertEquals('http://ogtest.com/og.jpg', $image);
@@ -38,7 +38,7 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('https://github.com/logo.png', $image2); //emulating real image path
     }
 
-    public function testExtractDescription() 
+    public function testExtractDescription()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
@@ -47,7 +47,7 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('description of og testing', $description);
     }
 
-    public function testExtractPublishDate() 
+    public function testExtractPublishDate()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
@@ -61,45 +61,44 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
         $crawler2 = new Crawler($this->getHtmlContent('opengraph2.html'));
         $publish_date2 = $adapter->extractPublishDate($crawler2);
         
-        $this->assertNull($publish_date2);        
+        $this->assertNull($publish_date2);
     }
 
-    public function testExtractKeywords() 
+    public function testExtractKeywords()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
-        $keywords = $adapter->extractKeywords($crawler); 
+        $keywords = $adapter->extractKeywords($crawler);
         $this->assertCount(4, $keywords);
         $this->assertArraySubset(['php'], $keywords); //TODO: revise spaces
     }
 
-    public function testExtractAuthor() 
+    public function testExtractAuthor()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
-        $author = $adapter->extractAuthor($crawler);        
+        $author = $adapter->extractAuthor($crawler);
         $this->assertEquals('OG Author', $author);
         
         $crawler2 = new Crawler($this->getHtmlContent('opengraph2.html'));
         $author2 = $adapter->extractAuthor($crawler2);
         
-        $this->assertNull($author2);        
+        $this->assertNull($author2);
     }
 
-    public function testExtractBody() 
+    public function testExtractBody()
     {
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\OpenGraphAdapter();
 
-        $body = $adapter->extractBody($crawler);        
+        $body = $adapter->extractBody($crawler);
         $this->assertNull($body);
     }
 
-    protected function getHtmlContent($filename = 'opengraph.html') 
+    protected function getHtmlContent($filename = 'opengraph.html')
     {
         return file_get_contents(__DIR__ . '/../../data/' . $filename);
     }
-
 }

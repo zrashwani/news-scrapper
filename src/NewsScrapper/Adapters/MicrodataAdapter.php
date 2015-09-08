@@ -120,13 +120,13 @@ class MicrodataAdapter extends AbstractAdapter
                         }
                     );
                 
-                if (empty($ret) === false) { //if content found, exit loop                    
+                if (empty($ret) === false) { //if content found, exit loop
                     break;
                 }
             }
         }
 
-        $ret = $this->normalizeHtml($ret);    
+        $ret = $this->normalizeHtml($ret);
         
         return $ret;
     }
@@ -182,7 +182,7 @@ class MicrodataAdapter extends AbstractAdapter
                     }
                 );
         }
-        $ret = preg_replace('@\s{2,}@', ' ',$ret);
+        $ret = preg_replace('@\s{2,}@', ' ', $ret);
         
         return $ret;
     }
