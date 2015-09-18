@@ -14,11 +14,10 @@ before_script:
     - cp phpunit.xml.dist phpunit.xml
     - composer self-update
     - composer install --dev
-
-script: phpunit -c phpunit.xml --coverage-text
-
-before_install:
     - pip install --user codecov
+
+script:
+    - phpunit -c phpunit.xml --coverage-clover=coverage.xml
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
