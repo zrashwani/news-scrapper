@@ -98,6 +98,10 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $adapter->currentUrl = 'http://example5.com';
         $url5 = $adapter->normalizeLink("img.png");
         $this->assertEquals('http://example5.com/img.png', $url5);
+        
+        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html';
+        $url6 = $adapter->normalizeLink('jsonld.js');
+        $this->assertEquals(__DIR__ . '/../../data/jsonld.js', $url6);
     }
     
     public function testNormalizeBodyLinks()
