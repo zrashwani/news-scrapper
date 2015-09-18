@@ -144,9 +144,9 @@ class MicrodataAdapter extends AbstractAdapter
                         $date_str = $node->attr('content');
                     } elseif ($node->attr('datetime')) {
                         $date_str = $node->attr('datetime');
-                    }/* else {
-                            $date_str = $node->text();
-                            }*/
+                    }else {
+                        $date_str = $node->text();
+                    }
                 }
             );
 
