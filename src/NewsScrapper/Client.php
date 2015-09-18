@@ -15,7 +15,7 @@ class Client
 {
 
     protected $scrapClient;
-    protected $adaptersList = ['Microdata', 'HAtom', 'OpenGraph', 'Default'];
+    protected $adaptersList = ['Microdata', 'HAtom', 'OpenGraph', 'Parsely', 'Default'];
 
     /**
      * Adapter to scrap content
