@@ -149,7 +149,7 @@ class OpenGraphAdapter extends AbstractAdapter
     {
         $date_str = null;
 
-        $crawler->filterXPath("//head/meta[@property='og:article:published_time']")
+        $crawler->filterXPath("//head/meta[@property='article:published_time']")
             ->each(
                 function ($node) use (&$date_str) {
                         $date_str = $node->attr('content');
@@ -167,7 +167,7 @@ class OpenGraphAdapter extends AbstractAdapter
     public function extractAuthor(Crawler $crawler)
     {
         $ret = null;
-        $crawler->filterXPath("//head/meta[@property='og:article:author']")
+        $crawler->filterXPath("//head/meta[@property='article:author']")
             ->each(
                 function ($node) use (&$ret) {
                         $ret = $node->attr('content');
