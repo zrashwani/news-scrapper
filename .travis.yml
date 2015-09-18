@@ -15,3 +15,9 @@ before_script:
     - composer install --dev
 
 script: phpunit -c phpunit.xml --coverage-text
+
+before_install:
+    - pip install --user codecov
+
+after_success:
+    - codecov
