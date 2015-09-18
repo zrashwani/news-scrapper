@@ -75,8 +75,9 @@ class Client
      * scrap one source of news
      * @param string   $baseUrl      url to scrap list of news from
      * @param string   $linkSelector css selector for news links in page
-     * @param int|NULL $limit        limit of news article to scrap,  if not set it will scrap all matching the selector if not set it will scrap all matching the selector if not set it will scrap all matching the selector if not set it will scrap all matching the selector
-     *   if not set it will scrap all matching the selector
+     * @param int|NULL $limit        limit of news article to scrap,
+     *      if not set it will scrap all matching the selector
+     * @todo add xpath support besides css style selector
      * @return array array of article items scrapped
      */
     public function scrapLinkGroup($baseUrl, $linkSelector, $limit = null)

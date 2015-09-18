@@ -43,7 +43,7 @@ class MicrodataAdapter extends AbstractAdapter
                 }
             );
             
-        if(empty($ret) === false){
+        if (empty($ret) === false) {
             $ret = $this->normalizeLink($ret);
         }
         return $ret;
@@ -144,7 +144,7 @@ class MicrodataAdapter extends AbstractAdapter
                         $date_str = $node->attr('content');
                     } elseif ($node->attr('datetime')) {
                         $date_str = $node->attr('datetime');
-                    }else {
+                    } else {
                         $date_str = $node->text();
                     }
                 }

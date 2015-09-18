@@ -36,7 +36,7 @@ class HAtomAdapter extends AbstractAdapter
                         $ret = $node->attr('src');
                 }
             );
-        if(empty($ret) === false){    
+        if (empty($ret) === false) {
             $ret = $this->normalizeLink($ret);
         }
         

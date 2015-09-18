@@ -16,8 +16,8 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
     }
     
     public function testExtractImage()
-    {        
-        $adapter = new Adapters\JsonLDAdapter();     
+    {
+        $adapter = new Adapters\JsonLDAdapter();
      
         $crawler = new Crawler($this->getHtmlContent());
         $image = $adapter->extractImage($crawler);
@@ -38,7 +38,7 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         $expected_obj = new \DateTime('2015-08-20T13:00:00Z');
         $expected_date = $expected_obj->format(\DateTime::ISO8601);
         
-        $this->assertEquals($expected_date, $publish_date);        
+        $this->assertEquals($expected_date, $publish_date);
         
         $crawler2 = new Crawler($this->getHtmlContent('jsonld2.html'));
         $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html'; //TODO: amend test later
@@ -47,7 +47,7 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         $expected_obj2 = new \DateTime('2015-09-15T13:00:00Z');
         $expected_date2 = $expected_obj2->format(\DateTime::ISO8601);
         
-        $this->assertEquals($expected_date2, $publish_date2);        
+        $this->assertEquals($expected_date2, $publish_date2);
     }
     
     public function testExtractDescription()
@@ -85,7 +85,7 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         
         $crawler2 = new Crawler($this->getHtmlContent('jsonld2.html'));
         $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html'; //TODO: amend test later
-        $author2 = $adapter->extractAuthor($crawler2);        
+        $author2 = $adapter->extractAuthor($crawler2);
         $this->assertEquals('Some creator', $author2);
     }
     
@@ -94,7 +94,7 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\JsonLDAdapter();
         
-        $body = $adapter->extractBody($crawler);        
+        $body = $adapter->extractBody($crawler);
         $this->assertEmpty($body);
     }
     

@@ -34,12 +34,12 @@ abstract class AbstractAdapter
      */
     public function normalizeLink($link)
     {
-        $baseUrl = $this->currentUrl;        
-        if(preg_match('@^http(s?)://.*$@', $baseUrl) === 0){ //local environment assumed here            
-            if(preg_match('@^http(s?)://.*$@', $link) === 0){
-                $link = pathinfo($baseUrl,PATHINFO_DIRNAME).'/'.$link; //TODO: revise later                
+        $baseUrl = $this->currentUrl;
+        if (preg_match('@^http(s?)://.*$@', $baseUrl) === 0) { //local environment assumed here
+            if (preg_match('@^http(s?)://.*$@', $link) === 0) {
+                $link = pathinfo($baseUrl, PATHINFO_DIRNAME).'/'.$link; //TODO: revise later
             }
-        }elseif (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
+        } elseif (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
             $urlParts = parse_url($baseUrl);
             $scheme = isset($urlParts['scheme'])===true?$urlParts['scheme']:'http';
             $host = isset($urlParts['host'])===true?$urlParts['host']:'';

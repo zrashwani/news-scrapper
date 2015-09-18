@@ -37,7 +37,7 @@ class ParselyAdapter extends AbstractAdapter
                         $ret = $node->attr('content');
                 }
             );
-        if(empty($ret) === false){    
+        if (empty($ret) === false) {
             $ret = $this->normalizeLink($ret);
         }
         
@@ -56,7 +56,7 @@ class ParselyAdapter extends AbstractAdapter
         $crawler->filterXPath('//meta[@name="parsely-tags"]')
             ->each(
                 function ($node) use (&$ret) {
-                        $ret = explode(',',$node->attr('content'));
+                        $ret = explode(',', $node->attr('content'));
                 }
             );
 
