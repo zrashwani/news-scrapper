@@ -86,7 +86,7 @@ class OpenGraphAdapter extends AbstractAdapter
                         }
 
                         if ($width > $width_org && $height > $height_org
-                            && $width > 200 && $height > 200
+                            && $width > 150 && $height > 150 //min size of the image amended
                         ) {
                             $ret = $img_src;
                         }
