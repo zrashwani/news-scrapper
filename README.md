@@ -6,7 +6,9 @@ This library supports scrapping using several standard structured meta data, lik
 [Microdata][schemaorgspec], [hAtom Microformat][hatomspec], [Open Graph][ogspec] and [standard html metadata][htmlmetaspec].
 
 News-Scrapper requires PHP >= 5.4
+
 [![Build Status](https://travis-ci.org/zrashwani/news-scrapper.svg?branch=master)](https://travis-ci.org/zrashwani/news-scrapper)
+[![Code Climate](https://codeclimate.com/repos/55fc7240e30ba0202900a918/badges/b41e6756dff9d9c0e01b/gpa.svg)](https://codeclimate.com/repos/55fc7240e30ba0202900a918/feed)
 
 ## How to Install
 You can install this library with [Composer][composer]. Drop this into your `composer.json`
