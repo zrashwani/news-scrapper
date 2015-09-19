@@ -47,6 +47,8 @@ Here is the list of supported adapters or scrapping modes:
 * Microdata
 * HAtom
 * OpenGraph
+* JsonLD
+* Parsely
 * Default
 
 ## How to Contribute
@@ -75,3 +77,4 @@ MIT Public License
 [hatomspec]: http://microformats.org/wiki/hatom
 [ogspec]: http://ogp.me/
 [htmlmetaspec]: http://www.w3.org/TR/html5/document-metadata.html#standard-metadata-names
+[composer]: http://getcomposer.org/
