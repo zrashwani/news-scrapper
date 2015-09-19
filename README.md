@@ -1,4 +1,4 @@
-# News Scrappy
+# News Scrapper
 This library extract article information  in a webpage including:
 title, description, author, keywords, publish data and body (if possible)...
 
