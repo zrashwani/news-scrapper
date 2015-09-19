@@ -145,26 +145,21 @@ class Client
     ) {
         $adapter->currentUrl = $article_info->url; //associate link url to adapter
         
-        if (empty($article_info->title) === true) {
-            $article_info->title = $adapter->extractTitle($pageCrawler);
-        }
-        if (empty($article_info->body) === true) {
-            $article_info->body = $adapter->extractBody($pageCrawler);
-        }
-        if (empty($article_info->image) === true) {
-            $article_info->image = $adapter->extractImage($pageCrawler, $article_info->url);
-        }
-        if (empty($article_info->description) === true) {
-            $article_info->description = $adapter->extractDescription($pageCrawler);
-        }
-        if (!isset($article_info->keywords) || count($article_info->keywords) === 0) {
-            $article_info->keywords = $adapter->extractKeywords($pageCrawler);
-        }
-        if (empty($article_info->author) === true) {
-            $article_info->author = $adapter->extractAuthor($pageCrawler);
-        }
-        if (empty($article_info->publishDate) === true) {
-            $article_info->publishDate = $adapter->extractPublishDate($pageCrawler);
-        }
+        $article_info->title = empty($article_info->title) === true?
+                    $adapter->extractTitle($pageCrawler):$article_info->title;
+        $article_info->image = empty($article_info->image) === true?
+                $adapter->extractImage($pageCrawler, $article_info->url):$article_info->image;
+        $article_info->description = empty($article_info->description) === true?
+                $adapter->extractDescription($pageCrawler):$article_info->description;
+        $article_info->keywords = !isset($article_info->keywords) || count($article_info->keywords) === 0?
+                $adapter->extractKeywords($pageCrawler):$article_info->keywords;
+        
+        $article_info->author = empty($article_info->author) === true?
+                $adapter->extractAuthor($pageCrawler):$article_info->author;
+        $article_info->publishDate = empty($article_info->publishDate) === true?
+                $adapter->extractPublishDate($pageCrawler):$article_info->publishDate;
+        $article_info->body = empty($article_info->body) === true?
+                $adapter->extractBody($pageCrawler):$article_info->body;
+        
     }
 }

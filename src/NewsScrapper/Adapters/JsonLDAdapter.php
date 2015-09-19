@@ -77,9 +77,9 @@ class JsonLDAdapter extends AbstractAdapter
         $date_str = null;
         $article_data = $this->getJsonData($crawler);
         
-        if (isset($article_data['datePublished']) == true) {
+        if (isset($article_data['datePublished']) === true) {
             $date_str = $article_data['datePublished'];
-        } elseif (isset($article_data['dateCreated']) == true) {
+        } elseif (isset($article_data['dateCreated']) === true) {
             $date_str = $article_data['dateCreated'];
         }
 

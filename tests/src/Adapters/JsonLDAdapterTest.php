@@ -13,6 +13,9 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         
         $title = $adapter->extractTitle($crawler);
         $this->assertEquals("test jsonld article", $title);
+        
+        $title2 = $adapter->extractTitle($crawler); //testing json cached data
+        $this->assertEquals("test jsonld article", $title2);
     }
     
     public function testExtractImage()
@@ -62,9 +65,9 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
     
     public function testExtractKeywords()
     {
-        $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\JsonLDAdapter();
         
+        $crawler = new Crawler($this->getHtmlContent());
         $keywords = $adapter->extractKeywords($crawler);
         $this->assertCount(4, $keywords);
         $this->assertArraySubset(["metadata","scraping"], $keywords);
@@ -77,9 +80,9 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
     
     public function testExtractAuthor()
     {
-        $crawler = new Crawler($this->getHtmlContent());
         $adapter = new Adapters\JsonLDAdapter();
         
+        $crawler = new Crawler($this->getHtmlContent());
         $author = $adapter->extractAuthor($crawler);
         $this->assertEquals('zaid jsonld', $author);
         

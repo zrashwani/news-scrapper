@@ -114,6 +114,9 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         
         $this->assertContains("http://example.com/relative-url", $html_normalized);
         $this->assertContains("http://example.com/another-sub/url", $html_normalized);
+        
+        $html_normalized2 = $adapter->normalizeBodyLinks('');
+        $this->assertEmpty($html_normalized2);
     }
 
     protected function getHtmlContent($filename = 'default.html')

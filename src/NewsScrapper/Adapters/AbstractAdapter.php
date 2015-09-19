@@ -35,10 +35,9 @@ abstract class AbstractAdapter
     public function normalizeLink($link)
     {
         $baseUrl = $this->currentUrl;
-        if (preg_match('@^http(s?)://.*$@', $baseUrl) === 0) { //local environment assumed here
-            if (preg_match('@^http(s?)://.*$@', $link) === 0) {
+        if (preg_match('@^http(s?)://.*$@', $baseUrl) === 0 && //local environment assumed here
+            preg_match('@^http(s?)://.*$@', $link) === 0) {
                 $link = pathinfo($baseUrl, PATHINFO_DIRNAME).'/'.$link; //TODO: revise later
-            }
         } elseif (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
             $urlParts = parse_url($baseUrl);
             $scheme = isset($urlParts['scheme'])===true?$urlParts['scheme']:'http';
@@ -59,7 +58,7 @@ abstract class AbstractAdapter
     /**
      * normalizing html scrapped by removing unwanted tags (ex. script, css)
      * and amending external resources paths
-     * @param string $html
+     * @param string $raw_html
      * @return string
      */
     public function normalizeHtml($raw_html)
@@ -80,13 +79,19 @@ abstract class AbstractAdapter
                     }
                 }
             );
-        $html = $crawler->html();
-        $html = $this->normalizeBodyLinks($html);
-        $html = preg_replace('@\s{2,}@', ' ', $html); //remove empty spaces from document
         
-        return $html;
+        $html = $this->normalizeBodyLinks($crawler->html());
+        $html2 = preg_replace('@\s{2,}@', ' ', $html); //remove empty spaces from document
+        
+        return $html2;
     }
     
+    /**
+     * covert all relative paths in html to absolute ones
+     * including: img src, a href ...etc.
+     * @param string $html
+     * @return string
+     */
     public function normalizeBodyLinks($html)
     {
         if (empty($html)===true) { //if html is empty, do nothing
@@ -118,19 +123,10 @@ abstract class AbstractAdapter
         }
         
         $final_html = $xmlDoc->saveHTML();
-        
-        $html_crawler = new Crawler($final_html);
-        
-        $ret = '';
-        //TODO: search for better way
-        $html_crawler->filter('body')->each(
-            function ($node) use (&$ret) {
-                $ret = $node->html();
-            }
-        );
-        
-        return $ret;
+                
+        return $this->getBodyHtml($final_html);
     }
+    
 
     /**
      * normalize keywords by removing spaces from each
@@ -144,5 +140,25 @@ abstract class AbstractAdapter
         }
         
         return $keywords;
+    }
+    
+    /**
+     * extract body content from html document
+     * @param string $doc_html
+     * @return string
+     */
+    protected function getBodyHtml($doc_html)
+    {
+        $html_crawler = new Crawler($doc_html);
+        
+        $ret = '';
+        //TODO: search for better way
+        $html_crawler->filter('body')->each(
+            function ($node) use (&$ret) {
+                $ret = $node->html();
+            }
+        );
+        
+        return $ret;
     }
 }
