@@ -52,5 +52,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         
         $this->assertNotEmpty($links_data);
         $this->assertLessThanOrEqual(count($links_data), 3); //test limit param
+        
+        //testing new xpath paramter
+        $links_data2 = $client->scrapLinkGroup(
+            'http://php.net/',
+            '//a',
+            4,
+            true
+        );
+        $this->assertNotEmpty($links_data2);
+        $this->assertLessThanOrEqual(count($links_data2), 4); //test limit param
     }
 }
