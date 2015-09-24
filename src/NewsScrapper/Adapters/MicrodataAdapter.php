@@ -150,7 +150,8 @@ class MicrodataAdapter extends AbstractAdapter
             );
 
         if (!is_null($date_str)) {
-            $date_str = str_replace('ET', '', $date_str); //TODO: amend in better way
+            //remove extra unneeded suffix from date
+            $date_str = str_replace('ET', '', $date_str);
             $ret = new \DateTime($date_str);
             return $ret->format(\DateTime::ISO8601);
         }

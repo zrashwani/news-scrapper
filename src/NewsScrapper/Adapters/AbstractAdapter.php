@@ -37,7 +37,7 @@ abstract class AbstractAdapter
         $baseUrl = $this->currentUrl;
         if (preg_match('@^http(s?)://.*$@', $baseUrl) === 0 && //local environment assumed here
             preg_match('@^http(s?)://.*$@', $link) === 0) {
-                $link = pathinfo($baseUrl, PATHINFO_DIRNAME).'/'.$link; //TODO: revise later
+                $link = pathinfo($baseUrl, PATHINFO_DIRNAME).'/'.$link;
         } elseif (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
             $urlParts = parse_url($baseUrl);
             $scheme = isset($urlParts['scheme'])===true?$urlParts['scheme']:'http';

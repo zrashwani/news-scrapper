@@ -43,7 +43,7 @@ class DefaultAdapter extends AbstractAdapter
         $crawler->filterXPath('//img')
             ->each(
                 function (Crawler $node) use (&$ret, $theAdapter) {
-                        $img_src = $theAdapter->normalizeLink($node->attr('src')); //TODO: handle
+                        $img_src = $theAdapter->normalizeLink($node->attr('src'));
                         $width_org = $height_org = 0;
                     
                         $url = pathinfo($img_src);
@@ -140,7 +140,7 @@ class DefaultAdapter extends AbstractAdapter
     {
         $date_str = null;
 
-        $crawler->filterXPath("//meta[@name='pubdate']") //TODO: revise
+        $crawler->filterXPath("//meta[@name='pubdate']")
             ->each(
                 function (Crawler $node) use (&$date_str) {
                     if (empty($date_str) == true) {
