@@ -143,7 +143,7 @@ class DefaultAdapter extends AbstractAdapter
         $crawler->filterXPath("//meta[@name='pubdate']")
             ->each(
                 function (Crawler $node) use (&$date_str) {
-                    if (empty($date_str) == true) {
+                    if (empty($date_str) === true) {
                         $date_str = $node->attr('content');
                     }
                 }

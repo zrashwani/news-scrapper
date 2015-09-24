@@ -55,7 +55,7 @@ class MicrodataAdapter extends AbstractAdapter
         $crawler->filterXPath('//*[@itemprop="description"]')
             ->each(
                 function (Crawler $node) use (&$ret) {
-                    if ($node->nodeName() == 'meta') {
+                    if ($node->nodeName() === 'meta') {
                         $ret = trim($node->attr('content'));
                     } else {
                         $ret = trim($node->text());
@@ -78,7 +78,7 @@ class MicrodataAdapter extends AbstractAdapter
         $crawler->filterXPath('//*[@itemprop="keywords"]')
             ->each(
                 function (Crawler $node) use (&$ret) {
-                    if ($node->nodeName() == 'meta') {
+                    if ($node->nodeName() === 'meta') {
                         $keyword_txt = trim($node->attr('content'));
                     } else {
                         $keyword_txt = trim($node->text());
@@ -139,7 +139,7 @@ class MicrodataAdapter extends AbstractAdapter
         $crawler->filterXPath('//*[@itemprop="datePublished"]')
             ->each(
                 function (Crawler $node) use (&$date_str) {
-                    if ($node->nodeName() == 'meta') {
+                    if ($node->nodeName() === 'meta') {
                         $date_str = $node->attr('content');
                     } elseif ($node->attr('datetime')) {
                         $date_str = $node->attr('datetime');
@@ -176,7 +176,7 @@ class MicrodataAdapter extends AbstractAdapter
             $crawler->filterXPath('//*[@itemprop="author"]')
                 ->each(
                     function (Crawler $node) use (&$ret) {
-                        if ($node->nodeName() == 'meta') {
+                        if ($node->nodeName() === 'meta') {
                                 $ret = $node->attr('content');
                         } else {
                             $ret = $node->text();

@@ -110,7 +110,7 @@ class JsonLDAdapter extends AbstractAdapter
         
         if ($author_data !== null) {
             if (is_array($author_data) === true) {
-                if (isset($author_data['@type']) === true && $author_data['@type'] == 'Person') {
+                if (isset($author_data['@type']) === true && $author_data['@type'] === 'Person') {
                     $ret = $author_data['name'];
                 } else {
                     $ret = implode(', ', $author_data);
@@ -139,7 +139,7 @@ class JsonLDAdapter extends AbstractAdapter
         $crawler->filterXPath('//script[@type="application/ld+json"]')
                 ->each(function (Crawler $node) use (&$ret) {
                     $json_content = trim($node->text());
-                    if (empty($json_content) == true && $node->attr('src')) {
+                    if (empty($json_content) === true && $node->attr('src')) {
                         $script_path = $this->normalizeLink($node->attr('src'));
                         $json_content = file_get_contents($script_path);
                     }
