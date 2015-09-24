@@ -92,7 +92,7 @@ class Client
         $method = ($is_xpath ===false)?'filter':'filterXPath';
         $crawler->$method($linkSelector)
             ->each(
-                function ($link_node) use (&$scrap_result, $theAdapter, &$limit) {
+                function (Crawler $link_node) use (&$scrap_result, $theAdapter, &$limit) {
                     if (!is_null($limit) && count($scrap_result) >= $limit) {
                         return;
                     }

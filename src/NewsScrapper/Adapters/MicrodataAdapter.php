@@ -175,7 +175,7 @@ class MicrodataAdapter extends AbstractAdapter
         if (is_null($ret)) {
             $crawler->filterXPath('//*[@itemprop="author"]')
                 ->each(
-                    function ($node) use (&$ret) {
+                    function (Crawler $node) use (&$ret) {
                         if ($node->nodeName() == 'meta') {
                                 $ret = $node->attr('content');
                         } else {

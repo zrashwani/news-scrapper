@@ -153,7 +153,7 @@ abstract class AbstractAdapter
         
         $ret = '';
         $html_crawler->filter('body')->each(
-            function ($node) use (&$ret) {
+            function (Crawler $node) use (&$ret) {
                 $ret = $node->html();
             }
         );
