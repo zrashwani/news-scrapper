@@ -51,7 +51,6 @@ class OpenGraphAdapter extends AbstractAdapter
 
     /**
      * extract image url from crawler open graph
-     * @todo check if image has good dimensions
      * @param Crawler $crawler
      * @return string
      */

@@ -77,10 +77,11 @@ class Client
      * @param string   $linkSelector css selector for news links in page
      * @param int|NULL $limit        limit of news article to scrap,
      *      if not set it will scrap all matching the selector
-     * @todo add xpath support besides css style selector
+     * @param boolean $is_xpath      if set true filterXPath method will be used
+     *      instead of css selector format
      * @return array array of article items scrapped
      */
-    public function scrapLinkGroup($baseUrl, $linkSelector, $limit = null)
+    public function scrapLinkGroup($baseUrl, $linkSelector, $limit = null, $is_xpath = false)
     {
         $crawler = $this->scrapClient->request('GET', $baseUrl);
 
@@ -88,7 +89,8 @@ class Client
         $theAdapter = new Adapters\DefaultAdapter();
         $theAdapter->currentUrl = $baseUrl;
 
-        $crawler->filter($linkSelector)
+        $method = ($is_xpath ===false)?'filter':'filterXPath';
+        $crawler->$method($linkSelector)
             ->each(
                 function ($link_node) use (&$scrap_result, $theAdapter, &$limit) {
                     if (!is_null($limit) && count($scrap_result) >= $limit) {

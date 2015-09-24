@@ -75,7 +75,7 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
 
         $keywords = $adapter->extractKeywords($crawler);
         $this->assertCount(4, $keywords);
-        $this->assertArraySubset(['php'], $keywords); //TODO: revise spaces
+        $this->assertArraySubset(['php'], $keywords);
     }
 
     public function testExtractAuthor()

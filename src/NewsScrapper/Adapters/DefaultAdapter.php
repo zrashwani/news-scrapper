@@ -32,7 +32,6 @@ class DefaultAdapter extends AbstractAdapter
 
     /**
      * extract image url from crawler open graph
-     * @todo normalize to absolute urls
      * @param Crawler $crawler
      * @return string
      */
@@ -157,8 +156,7 @@ class DefaultAdapter extends AbstractAdapter
                 return $ret->format(\DateTime::ISO8601);
             }
         } catch (\Exception $ex) {
-            error_log('invalid date');
-            //TODO: handle invalid date format
+            error_log('invalid date'); //invalid date format
         }
 
         return null;

@@ -13,7 +13,6 @@ class MicrodataAdapter extends AbstractAdapter
 {
 
     /**
-     * @todo better way
      * @param Crawler $crawler
      * @return string
      */

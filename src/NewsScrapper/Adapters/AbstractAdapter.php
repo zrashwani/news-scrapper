@@ -152,7 +152,6 @@ abstract class AbstractAdapter
         $html_crawler = new Crawler($doc_html);
         
         $ret = '';
-        //TODO: search for better way
         $html_crawler->filter('body')->each(
             function ($node) use (&$ret) {
                 $ret = $node->html();

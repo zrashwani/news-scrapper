@@ -27,7 +27,7 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://jsonld-example.com/main.png', $image);
         
         $crawler2 = new Crawler($this->getHtmlContent('jsonld2.html'));
-        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html'; //TODO: amend test later
+        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html';
         $image2 = $adapter->extractImage($crawler2);
         $this->assertEquals('http://example2.com/blog/main.png', $image2);
     }
@@ -44,7 +44,7 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected_date, $publish_date);
         
         $crawler2 = new Crawler($this->getHtmlContent('jsonld2.html'));
-        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html'; //TODO: amend test later
+        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html';
         $publish_date2 = $adapter->extractPublishDate($crawler2);
         
         $expected_obj2 = new \DateTime('2015-09-15T13:00:00Z');
@@ -73,7 +73,7 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertArraySubset(["metadata","scraping"], $keywords);
         
         $crawler2 = new Crawler($this->getHtmlContent('jsonld2.html'));
-        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html'; //TODO: amend test later
+        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html';
         $keywords2 = $adapter->extractKeywords($crawler2);
         $this->assertEquals(['jsonld2'], $keywords2);
     }
@@ -87,7 +87,7 @@ class JsonLDAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('zaid jsonld', $author);
         
         $crawler2 = new Crawler($this->getHtmlContent('jsonld2.html'));
-        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html'; //TODO: amend test later
+        $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html';
         $author2 = $adapter->extractAuthor($crawler2);
         $this->assertEquals('Some creator', $author2);
     }
