@@ -137,7 +137,7 @@ class JsonLDAdapter extends AbstractAdapter
         
         $ret = array();
         $crawler->filterXPath('//script[@type="application/ld+json"]')
-                ->each(function ($node) use (&$ret) {
+                ->each(function (Crawler $node) use (&$ret) {
                     $json_content = trim($node->text());
                     if (empty($json_content) == true && $node->attr('src')) {
                         $script_path = $this->normalizeLink($node->attr('src'));

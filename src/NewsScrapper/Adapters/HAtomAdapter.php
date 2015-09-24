@@ -17,7 +17,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('.hentry .entry-title')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                         $ret = $node->text();
                 }
             );
@@ -32,7 +32,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('.entry-thumbnail img')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                         $ret = $node->attr('src');
                 }
             );
@@ -49,7 +49,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('.hentry .entry-summary')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                         $ret = $node->text();
                 }
             );
@@ -63,7 +63,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('.hentry a[rel="tag"]')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                         $ret[] = $node->text();
                 }
             );
@@ -90,7 +90,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('time.published, .hentry .entry-date')
             ->each(
-                function ($node) use (&$date_str) {
+                function (Crawler $node) use (&$date_str) {
                         $date_str = $node->attr('datetime');
                 }
             );
@@ -106,7 +106,7 @@ class HAtomAdapter extends AbstractAdapter
         $ret = null;
         $crawler->filter('.hentry .author.vcard')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                         $ret = $node->text();
                 }
             );

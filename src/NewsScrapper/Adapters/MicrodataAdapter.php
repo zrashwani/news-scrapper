@@ -22,7 +22,7 @@ class MicrodataAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//*[@itemprop="headline"]')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                             $ret = trim($node->text());
                 }
             );
@@ -37,7 +37,7 @@ class MicrodataAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//img[@itemprop="image"]')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                             $ret = $node->attr('src');
                 }
             );
@@ -54,7 +54,7 @@ class MicrodataAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//*[@itemprop="description"]')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                     if ($node->nodeName() == 'meta') {
                         $ret = trim($node->attr('content'));
                     } else {
@@ -77,7 +77,7 @@ class MicrodataAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//*[@itemprop="keywords"]')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                     if ($node->nodeName() == 'meta') {
                         $keyword_txt = trim($node->attr('content'));
                     } else {
@@ -116,7 +116,7 @@ class MicrodataAdapter extends AbstractAdapter
                     "//*[@itemtype='http://schema.org/$article_type']"
                 )
                     ->each(
-                        function ($node) use (&$ret) {
+                        function (Crawler $node) use (&$ret) {
                                     $ret .= $node->html();
                         }
                     );
@@ -138,7 +138,7 @@ class MicrodataAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//*[@itemprop="datePublished"]')
             ->each(
-                function ($node) use (&$date_str) {
+                function (Crawler $node) use (&$date_str) {
                     if ($node->nodeName() == 'meta') {
                         $date_str = $node->attr('content');
                     } elseif ($node->attr('datetime')) {
@@ -166,7 +166,7 @@ class MicrodataAdapter extends AbstractAdapter
             'and @itemtype="http://schema.org/Person"]//*[@itemprop="name"]'
         )
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                             $ret = $node->text();
                 }
             );

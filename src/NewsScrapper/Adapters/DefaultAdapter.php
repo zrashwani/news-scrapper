@@ -22,7 +22,7 @@ class DefaultAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//head/title')
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                             $ret = $node->text();
                 }
             );
@@ -42,7 +42,7 @@ class DefaultAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//img')
             ->each(
-                function ($node) use (&$ret, $theAdapter) {
+                function (Crawler $node) use (&$ret, $theAdapter) {
                         $img_src = $theAdapter->normalizeLink($node->attr('src')); //TODO: handle
                         $width_org = $height_org = 0;
                     
@@ -77,7 +77,7 @@ class DefaultAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//head/meta[@name='description']")
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                             $ret = $node->attr('content');
                 }
             );
@@ -96,7 +96,7 @@ class DefaultAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//head/meta[@name='keywords']")
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                             $node_txt = trim($node->attr('content'));
                     if (!empty($node_txt)) {
                         $ret = explode(',', $node_txt);
@@ -119,7 +119,7 @@ class DefaultAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//article")
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
 
                             $node_txt = $node->text();
                     if (strlen($node_txt) > strlen($ret)) {
@@ -142,7 +142,7 @@ class DefaultAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//meta[@name='pubdate']") //TODO: revise
             ->each(
-                function ($node) use (&$date_str) {
+                function (Crawler $node) use (&$date_str) {
                     if (empty($date_str) == true) {
                         $date_str = $node->attr('content');
                     }
@@ -172,7 +172,7 @@ class DefaultAdapter extends AbstractAdapter
         $ret = null;
         $crawler->filterXPath("//head/meta[@name='author']")
             ->each(
-                function ($node) use (&$ret) {
+                function (Crawler $node) use (&$ret) {
                             $ret = $node->attr('content');
                 }
             );
