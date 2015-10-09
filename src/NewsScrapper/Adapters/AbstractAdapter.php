@@ -66,21 +66,23 @@ abstract class AbstractAdapter
         if (empty($raw_html)) {
             return $raw_html;
         }
-        $crawler = new Crawler($raw_html);
-        $disallowed_tags = ['script', 'style', 'meta'];
         
-        $crawler
-            ->filter(implode(',', $disallowed_tags))
-            ->each(
-                function (Crawler $node, $i) {
-                    foreach ($node as $subnode) {
-                            //delete these elements from dom document
-                            $subnode->parentNode->removeChild($subnode);
-                    }
-                }
-            );
+        $disallowed_tags = ['script', 'style', 'meta','form'];
+                
+        $xmlDoc = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $xmlDoc->loadHTML(mb_convert_encoding($raw_html, 'HTML-ENTITIES', 'UTF-8'));
+        libxml_clear_errors();
         
-        $html = $this->normalizeBodyLinks($crawler->html());
+        $xpath = new \DOMXPath($xmlDoc);
+        foreach ($disallowed_tags as $tag) {
+            $unwanted_entries = $xpath->query('//'.$tag);
+            foreach ($unwanted_entries as $unwanted_elem) {
+                $unwanted_elem->parentNode->removeChild($unwanted_elem);
+            }
+        }
+        
+        $html = $this->normalizeBodyLinks($xmlDoc->saveHTML());
         $html2 = preg_replace('@\s{2,}@', ' ', $html); //remove empty spaces from document
         
         return $html2;
@@ -98,9 +100,9 @@ abstract class AbstractAdapter
             return $html;
         }
         
-        $xmlDoc = new \DOMDocument('1.0', 'UTF-8');
+        $xmlDoc = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $xmlDoc->loadHTML($html);
+        $xmlDoc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
         libxml_clear_errors();
         
         $xpath = new \DOMXPath($xmlDoc);
