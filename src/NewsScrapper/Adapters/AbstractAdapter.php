@@ -67,7 +67,7 @@ abstract class AbstractAdapter
             return $raw_html;
         }
         
-        $disallowed_tags = ['script', 'style', 'meta','form'];
+        $disallowed_tags = ['script', 'style', 'meta','form','aside'];
                 
         $xmlDoc = new \DOMDocument();
         libxml_use_internal_errors(true);

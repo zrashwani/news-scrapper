@@ -73,6 +73,8 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
 
         $body = $adapter->extractBody($crawler);
         $this->assertContains('article body here', $body);
+        
+        $this->assertNotContains('side block', $body);
     }
     
     public function testNormalizeLink()
