@@ -39,7 +39,7 @@ abstract class AbstractAdapter
             preg_match('@^http(s?)://.*$@', $link) === 0) {
                 $link = pathinfo($baseUrl, PATHINFO_DIRNAME).'/'.$link;
         } elseif (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
-            $urlParts = parse_url($baseUrl);
+            $urlParts = parse_url($baseUrl);            
             $scheme = isset($urlParts['scheme'])===true?$urlParts['scheme']:'http';
             $host = isset($urlParts['host'])===true?$urlParts['host']:'';
             if (strpos($link, '//') === 0) { //begins with //
@@ -48,7 +48,7 @@ abstract class AbstractAdapter
                 $link = $scheme.'://'.$host.$link;
             } else {
                 $path = isset($urlParts['path'])===true?$urlParts['path']:'/';
-                $link = $scheme.'://'.$host.$path.$link;
+                $link = $scheme.'://'.$host.'/'.$link;
             }
         }
         

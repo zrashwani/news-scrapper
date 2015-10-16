@@ -91,7 +91,7 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("http://example2.com/whatever", $url2);
         
         $url3 = $adapter->normalizeLink('in-sub');
-        $this->assertEquals('http://example.com/subfolder/in-sub', $url3);
+        $this->assertEquals('http://example.com/in-sub', $url3);
         
         $adapter->currentUrl = 'https://securedurl.com/';
         $url4 = $adapter->normalizeLink("//example3.com");
