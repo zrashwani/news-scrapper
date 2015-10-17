@@ -101,7 +101,7 @@ class Client
 
                             $article_info = $this->getLinkData($link);
                             $this->setAdapter(''); //reset default adapter after scrapping one link
-                            $scrap_result[] = $article_info;
+                            $scrap_result[$link] = $article_info;
                 }
             );
 
