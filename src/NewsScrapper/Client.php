@@ -97,7 +97,7 @@ class Client
                         return;
                     }
                             $link = $theAdapter
-                                ->normalizeLink($link_node->attr('href'));
+                                ->normalizeLink($link_node->attr('href'), true); //remove hash before scrapping
 
                             $article_info = $this->getLinkData($link);
                             $this->setAdapter(''); //reset default adapter after scrapping one link

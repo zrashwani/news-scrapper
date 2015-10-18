@@ -104,6 +104,12 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $adapter->currentUrl = __DIR__ . '/../../data/jsonld2.html';
         $url6 = $adapter->normalizeLink('jsonld.js');
         $this->assertEquals(__DIR__ . '/../../data/jsonld.js', $url6);
+        
+        $url7 = $adapter->normalizeLink('http://example.com/subpage#hash', true);
+        $this->assertEquals('http://example.com/subpage', $url7);
+        
+        $url8 = $adapter->normalizeLink('http://example.com/subpage#hash');
+        $this->assertEquals('http://example.com/subpage#hash', $url8);
     }
     
     public function testNormalizeBodyLinks()

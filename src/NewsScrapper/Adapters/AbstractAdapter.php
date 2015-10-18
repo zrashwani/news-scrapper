@@ -30,16 +30,17 @@ abstract class AbstractAdapter
     /**
      * normalize link and turn it into absolute format
      * @param string $link
+     * @param boolean $remove_hashes if set true, hashes will be removed from url
      * @return string
      */
-    public function normalizeLink($link)
+    public function normalizeLink($link, $remove_hashes = false)
     {
         $baseUrl = $this->currentUrl;
         if (preg_match('@^http(s?)://.*$@', $baseUrl) === 0 && //local environment assumed here
             preg_match('@^http(s?)://.*$@', $link) === 0) {
                 $link = pathinfo($baseUrl, PATHINFO_DIRNAME).'/'.$link;
         } elseif (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
-            $urlParts = parse_url($baseUrl);            
+            $urlParts = parse_url($baseUrl);
             $scheme = isset($urlParts['scheme'])===true?$urlParts['scheme']:'http';
             $host = isset($urlParts['host'])===true?$urlParts['host']:'';
             if (strpos($link, '//') === 0) { //begins with //
@@ -52,6 +53,9 @@ abstract class AbstractAdapter
             }
         }
         
+        if ($remove_hashes === true) {
+            $link = preg_replace('@#.*$@', '', $link);
+        }
         return $link;
     }
 
