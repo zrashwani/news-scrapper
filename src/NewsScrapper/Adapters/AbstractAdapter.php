@@ -47,8 +47,7 @@ abstract class AbstractAdapter
                 $link = $scheme . ':' . $link;
             } elseif (strpos($link, '/') === 0) { //begins with /
                 $link = $scheme.'://'.$host.$link;
-            } else {
-                $path = isset($urlParts['path'])===true?$urlParts['path']:'/';
+            } else {                
                 $link = $scheme.'://'.$host.'/'.$link;
             }
         }
