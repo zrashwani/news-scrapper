@@ -19,6 +19,17 @@ class CustomAdapter extends AbstractAdapter
     private $publishDateSelector;
     private $titleSelector;
     
+    /**
+     * adapter used to fill in the missing selectors data by default values
+     * @var DefaultAdapter $fallbackAdapter
+     */
+    private $fallbackAdapter;
+    
+    public function __construct()
+    {
+        $this->fallbackAdapter = new DefaultAdapter();
+    }
+    
     public function setAuthorSelector($selector)
     {
         $this->authorSelector = $selector;
@@ -63,22 +74,30 @@ class CustomAdapter extends AbstractAdapter
     
     public function extractAuthor(Crawler $crawler)
     {
-        return $this->getElementText($crawler, $this->authorSelector);
+        $ret = $this->getElementText($crawler, $this->authorSelector);
+        if (empty($ret) === true) {
+            $ret = $this->fallbackAdapter->extractAuthor($crawler);
+        }
+        return $ret;
     }
 
     public function extractBody(Crawler $crawler)
     {
-        return $this->getElementText($crawler, $this->bodySelector);
+        $ret = $this->getElementText($crawler, $this->bodySelector);
+        return $this->normalizeHtml($ret);
     }
 
     public function extractDescription(Crawler $crawler)
     {
-        return $this->getElementText($crawler, $this->descriptionSelector);
+        $ret = $this->getElementText($crawler, $this->descriptionSelector);
+        if (empty($ret) === true) {
+            $ret = $this->fallbackAdapter->extractDescription($crawler);
+        }
+        return $ret;
     }
 
     public function extractImage(Crawler $crawler)
     {
-        $this->currentUrl = "http://example.com/";
         if (empty($this->imageSelector) === true) {
             return null;
         }
@@ -90,25 +109,48 @@ class CustomAdapter extends AbstractAdapter
                     $ret = $node->attr('src');
                 }
             );
+            
+        if (empty($ret) === true) {
+            $ret = $this->fallbackAdapter->extractImage($crawler);
+        }
+        
         return $this->normalizeLink($ret);
     }
 
     public function extractKeywords(Crawler $crawler)
     {
         $ret =  $this->getElementText($crawler, $this->keywordsSelector);
-        return $this->normalizeKeywords(explode(',', $ret));
+        if (empty($ret) === true) {
+            return $this->fallbackAdapter->extractKeywords($crawler);
+        } else {
+            return $this->normalizeKeywords(explode(',', $ret));
+        }
     }
 
     public function extractPublishDate(Crawler $crawler)
     {
-        return $this->getElementText($crawler, $this->publishDateSelector);
+        $ret = $this->getElementText($crawler, $this->publishDateSelector);
+        if (empty($ret) === true) {
+            $ret = $this->fallbackAdapter->extractPublishDate($crawler);
+        }
+        return $ret;
     }
 
     public function extractTitle(Crawler $crawler)
     {
-        return $this->getElementText($crawler, $this->titleSelector);
+        $ret = $this->getElementText($crawler, $this->titleSelector);
+        if (empty($ret) === true) {
+            $ret = $this->fallbackAdapter->extractTitle($crawler);
+        }
+        return $ret;
     }
 
+    /**
+     * getting text of element by selector (css selector or xpath )
+     * @param Crawler $crawler
+     * @param string $selector
+     * @return string
+     */
     protected function getElementText(Crawler $crawler, $selector)
     {
         
