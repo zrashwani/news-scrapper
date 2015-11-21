@@ -33,18 +33,8 @@ class MicrodataAdapter extends AbstractAdapter
 
     public function extractImage(Crawler $crawler)
     {
-        $ret = null;
-
-        $crawler->filterXPath('//img[@itemprop="image"]')
-            ->each(
-                function (Crawler $node) use (&$ret) {
-                            $ret = $node->attr('src');
-                }
-            );
-            
-        if (empty($ret) === false) {
-            $ret = $this->normalizeLink($ret);
-        }
+        
+        $ret = $this->getSrcByImgSelector($crawler, '//img[@itemprop="image"]');
         return $ret;
     }
 

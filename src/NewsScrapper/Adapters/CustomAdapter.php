@@ -2,7 +2,8 @@
 
 namespace Zrashwani\NewsScrapper\Adapters;
 
-use \Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Crawler;
+use Zrashwani\NewsScrapper\Selector;
 
 /**
  * Adapter to extract page data from un-structured HTML document
@@ -18,24 +19,24 @@ class CustomAdapter extends AbstractAdapter
     private $keywordsSelector;
     private $publishDateSelector;
     private $titleSelector;
-    
+
     /**
      * adapter used to fill in the missing selectors data by default values
      * @var DefaultAdapter $fallbackAdapter
      */
     private $fallbackAdapter;
-    
+
     public function __construct()
     {
         $this->fallbackAdapter = new DefaultAdapter();
     }
-    
+
     public function setAuthorSelector($selector)
     {
         $this->authorSelector = $selector;
         return $this;
     }
-    
+
     public function setBodySelector($selector)
     {
         $this->bodySelector = $selector;
@@ -65,13 +66,13 @@ class CustomAdapter extends AbstractAdapter
         $this->publishDateSelector = $selector;
         return $this;
     }
-    
+
     public function setTitleSelector($selector)
     {
         $this->titleSelector = $selector;
         return $this;
     }
-    
+
     public function extractAuthor(Crawler $crawler)
     {
         $ret = $this->getElementText($crawler, $this->authorSelector);
@@ -98,28 +99,24 @@ class CustomAdapter extends AbstractAdapter
 
     public function extractImage(Crawler $crawler)
     {
-        if (empty($this->imageSelector) === true) {
-            return null;
+
+        if (empty($this->imageSelector) === false) {
+            $ret = $this->getSrcByImgSelector($crawler, $this->imageSelector);
         }
-        
-        $ret = null;
-        $crawler->filterXPath($this->imageSelector)
-            ->each(
-                function (Crawler $node) use (&$ret) {
-                    $ret = $node->attr('src');
-                }
-            );
-            
         if (empty($ret) === true) {
             $ret = $this->fallbackAdapter->extractImage($crawler);
         }
-        
-        return $this->normalizeLink($ret);
+
+        if (empty($ret) === false) {
+            return $this->normalizeLink($ret);
+        } else {
+            return null;
+        }
     }
 
     public function extractKeywords(Crawler $crawler)
     {
-        $ret =  $this->getElementText($crawler, $this->keywordsSelector);
+        $ret = $this->getElementText($crawler, $this->keywordsSelector);
         if (empty($ret) === true) {
             return $this->fallbackAdapter->extractKeywords($crawler);
         } else {
@@ -153,18 +150,22 @@ class CustomAdapter extends AbstractAdapter
      */
     protected function getElementText(Crawler $crawler, $selector)
     {
-        
+
         if (empty($selector) === true) {
             return null;
         }
-        
+
         $ret = null;
-        $crawler->filterXPath($selector)
-            ->each(
-                function (Crawler $node) use (&$ret) {
-                    $ret = $node->text();
-                }
-            );
+        $extractNodeClosure = function (Crawler $node) use (&$ret) {
+            $ret = $node->text();
+        };
+        if (Selector::isCSS($selector)) {
+            $crawler->filter($selector)
+                    ->each($extractNodeClosure);
+        } else {
+            $crawler->filterXPath($selector)
+                    ->each($extractNodeClosure);
+        }
 
         return $ret;
     }

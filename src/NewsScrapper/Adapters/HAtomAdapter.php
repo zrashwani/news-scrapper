@@ -28,18 +28,7 @@ class HAtomAdapter extends AbstractAdapter
 
     public function extractImage(Crawler $crawler)
     {
-        $ret = null;
-
-        $crawler->filter('.entry-thumbnail img')
-            ->each(
-                function (Crawler $node) use (&$ret) {
-                        $ret = $node->attr('src');
-                }
-            );
-        if (empty($ret) === false) {
-            $ret = $this->normalizeLink($ret);
-        }
-        
+        $ret = $this->getSrcByImgSelector($crawler, '.entry-thumbnail img');
         return $ret;
     }
 

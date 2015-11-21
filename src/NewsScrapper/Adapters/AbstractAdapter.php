@@ -2,7 +2,8 @@
 
 namespace Zrashwani\NewsScrapper\Adapters;
 
-use \Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Crawler;
+use Zrashwani\NewsScrapper\Selector;
 
 /**
  * Base class that defines skeleton of the any adapter implemented
@@ -164,5 +165,28 @@ abstract class AbstractAdapter
         );
         
         return $ret;
+    }
+    
+
+    /**
+     * extract image source by selector
+     * @param  Crawler $crawler
+     * @param  string $selector
+     * @return string
+     */
+    protected function getSrcByImgSelector(Crawler $crawler, $selector)
+    {
+        $ret = null;
+        $imgExtractClosure = function (Crawler $node) use (&$ret) {
+            $ret = $node->attr('src');
+        };
+        if (Selector::isXPath($selector)) {
+            $crawler->filterXPath($selector)
+                    ->each($imgExtractClosure);
+        } else {
+            $crawler->filter($selector)
+                    ->each($imgExtractClosure);
+        }
+        return $this->normalizeLink($ret);
     }
 }
