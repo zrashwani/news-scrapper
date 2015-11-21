@@ -146,9 +146,10 @@ class CustomAdapter extends AbstractAdapter
      * getting text of element by selector (css selector or xpath )
      * @param Crawler $crawler
      * @param string $selector
+     * @param \Closure $extractClosure callback function to be used for extraction
      * @return string
      */
-    protected function getElementText(Crawler $crawler, $selector)
+    protected function getElementText(Crawler $crawler, $selector, $extractClosure = null)
     {
 
         if (empty($selector) === true) {
@@ -156,15 +157,17 @@ class CustomAdapter extends AbstractAdapter
         }
 
         $ret = null;
-        $extractNodeClosure = function (Crawler $node) use (&$ret) {
-            $ret = $node->text();
-        };
+        if ($extractClosure === null) {
+            $extractClosure = function (Crawler $node) use (&$ret) {
+                $ret = $node->html();
+            };
+        }
         if (Selector::isCSS($selector)) {
             $crawler->filter($selector)
-                    ->each($extractNodeClosure);
+                    ->each($extractClosure);
         } else {
             $crawler->filterXPath($selector)
-                    ->each($extractNodeClosure);
+                    ->each($extractClosure);
         }
 
         return $ret;
