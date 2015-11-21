@@ -34,8 +34,9 @@ class Selector
      */
     public static function isXPath($selector)
     {
+        libxml_use_internal_errors(true);
         $document = new \DOMDocument('1.0', 'UTF-8');
         $xpath = new \DOMXPath($document);
-        return @$xpath->evaluate($selector, $document) !== false;
+        return $xpath->evaluate($selector, $document) !== false;
     }
 }
