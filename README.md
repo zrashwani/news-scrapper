@@ -36,9 +36,10 @@ Here's a quick how to scrap news data from a webpage:
 	print_r($scrap_client->getLinkData($url));
 ```
 By default, scrapper tries to guess the best structured data adapter and apply it.
+-------------------------------------------
+
 
 ### Scrapping Structured data	
--------------------------------------------
 You can select a specific adapter to be used for extracting the data as following:
 
 ```php   
@@ -55,9 +56,10 @@ Here is the list of supported structured data adapters or scrapping modes:
 * [JsonLD][jsonld]
 * [Parsely][parsely]
 * Default
+-------------------------------------------
+
 
 ### Scrapping Unstructured data
--------------------------------------------
 If the webpage doesn't follow any standard structured data, you can still scrap news information by specifying xpath or css selector for different article parts like: title, description, image and body. as following:
 ```php
 $scrapClient = new \Zrashwani\NewsScrapper\Client('Custom');
@@ -76,9 +78,10 @@ print_r($newsData);
 ```
 Custom scrapping adapter `CustomAdapter` supports method chaining for setting the selectors.
 If any selector is not specified it will use default selectors based on `DefaultAdapter` (which is html adapter that depends of standard meta tags).
+-------------------------------------------
+
 
 ### Scrapping Group of Links
--------------------------------------------
 To scrap group of news article from certain page containing news links, `scrapLinkGroup` method can be used
 
 ```php
@@ -92,6 +95,8 @@ foreach($newsGroupData as $singleNews){
     print_r($singleNews);
 }
 ```
+
+
 ## How to Contribute
 
 1. Fork this repository
