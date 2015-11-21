@@ -38,6 +38,7 @@ Here's a quick how to scrap news data from a webpage:
 By default, scrapper tries to guess the best structured data adapter and apply it.
 
 ### Scrapping Structured data	
+-------------------------------------------
 You can select a specific adapter to be used for extracting the data as following:
 
 ```php   
@@ -56,11 +57,12 @@ Here is the list of supported structured data adapters or scrapping modes:
 * Default
 
 ### Scrapping Unstructured data
+-------------------------------------------
 If the webpage doesn't follow any standard structured data, you can still scrap news information by specifying xpath or css selector for different article parts like: title, description, image and body. as following:
 ```php
-$scrapClient = new Zrashwani\NewsScrapper\Client('Custom');
+$scrapClient = new \Zrashwani\NewsScrapper\Client('Custom');
 
-/*@var $adapter Zrashwani\NewsScrapper\Adapters\CustomAdapter */
+/*@var $adapter \Zrashwani\NewsScrapper\Adapters\CustomAdapter */
 $adapter = $scrapClient->getAdapter();
 $adapter        
         ->setTitleSelector('.single-post h1') //selectors can be either css or xpath
@@ -76,6 +78,7 @@ Custom scrapping adapter `CustomAdapter` supports method chaining for setting th
 If any selector is not specified it will use default selectors based on `DefaultAdapter` (which is html adapter that depends of standard meta tags).
 
 ### Scrapping Group of Links
+-------------------------------------------
 To scrap group of news article from certain page containing news links, `scrapLinkGroup` method can be used
 
 ```php
@@ -83,8 +86,8 @@ $listingPageUrl = 'https://www.readability.com/topreads/'; //url containing news
 $linksSelector = '.entry-title a'; //css or xpath selector for news links inside listing page
 $numberOfArticles = 3; //number of links to scrap, use null to get all matching selector
 
-$scrapClient = new Zrashwani\NewsScrapper\Client();
-$newsGroupData = $scrapClient->scrapLinkGroup($listingPageUrl, $linksSelector,$numberOfArticle);                
+$scrapClient = new \Zrashwani\NewsScrapper\Client();
+$newsGroupData = $scrapClient->scrapLinkGroup($listingPageUrl, $linksSelector,$numberOfArticles);                
 foreach($newsGroupData as $singleNews){
     print_r($singleNews);
 }
