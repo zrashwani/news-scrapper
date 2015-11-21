@@ -18,7 +18,7 @@ manifest file:
 
     {
         "require": {
-            "zrashwani/news-scrapper": "dev-master"
+            "zrashwani/news-scrapper": "1.*"
         }
     }
 	
@@ -36,7 +36,6 @@ Here's a quick how to scrap news data from a webpage:
 	print_r($scrap_client->getLinkData($url));
 ```
 By default, scrapper tries to guess the best structured data adapter and apply it.
--------------------------------------------
 
 
 ### Scrapping Structured data	
@@ -56,7 +55,6 @@ Here is the list of supported structured data adapters or scrapping modes:
 * [JsonLD][jsonld]
 * [Parsely][parsely]
 * Default
--------------------------------------------
 
 
 ### Scrapping Unstructured data
@@ -78,7 +76,6 @@ print_r($newsData);
 ```
 Custom scrapping adapter `CustomAdapter` supports method chaining for setting the selectors.
 If any selector is not specified it will use default selectors based on `DefaultAdapter` (which is html adapter that depends of standard meta tags).
--------------------------------------------
 
 
 ### Scrapping Group of Links
