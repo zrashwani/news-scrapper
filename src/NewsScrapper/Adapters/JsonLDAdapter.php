@@ -17,7 +17,7 @@ class JsonLDAdapter extends AbstractAdapter
     public function extractTitle(Crawler $crawler)
     {
         $article_data = $this->getJsonData($crawler);
-        $ret = isset($article_data['headline'])?$article_data['headline']:null;
+        $ret = isset($article_data['headline']) ? $article_data['headline'] : null;
 
         return $ret;
     }
@@ -39,7 +39,7 @@ class JsonLDAdapter extends AbstractAdapter
     public function extractDescription(Crawler $crawler)
     {
         $article_data = $this->getJsonData($crawler);
-        $ret = isset($article_data['description'])?$article_data['description']:null;
+        $ret = isset($article_data['description']) ? $article_data['description'] : null;
         
         return $ret;
     }
@@ -47,7 +47,7 @@ class JsonLDAdapter extends AbstractAdapter
     public function extractKeywords(Crawler $crawler)
     {
         $article_data = $this->getJsonData($crawler);
-        $ret = isset($article_data['keywords'])?$article_data['keywords']:array();
+        $ret = isset($article_data['keywords']) ? $article_data['keywords'] : array();
         
         if (!is_array($ret)) {
             $ret = explode(',', $ret);
@@ -137,7 +137,7 @@ class JsonLDAdapter extends AbstractAdapter
         
         $ret = array();
         $crawler->filterXPath('//script[@type="application/ld+json"]')
-                ->each(function (Crawler $node) use (&$ret) {
+                ->each(function(Crawler $node) use (&$ret) {
                     $json_content = trim($node->text());
                     if (empty($json_content) === true && $node->attr('src')) {
                         $script_path = $this->normalizeLink($node->attr('src'));
@@ -171,7 +171,7 @@ class JsonLDAdapter extends AbstractAdapter
                 'APIReference'];
         
         if (isset($article_data['@context']) &&
-                $article_data['@context']=='http://schema.org' &&
+                $article_data['@context'] == 'http://schema.org' &&
                 isset($article_data['@type']) &&
                 in_array($article_data['@type'], $article_types)) {
             return true;

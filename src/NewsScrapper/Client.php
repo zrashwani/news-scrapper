@@ -32,12 +32,12 @@ class Client
         
         $this->scrapClient->followRedirects();
         $this->scrapClient->getClient()->setDefaultOption(
-            'config/curl/' .
+            'config/curl/'.
             CURLOPT_SSL_VERIFYHOST,
             false
         );
         $this->scrapClient->getClient()->setDefaultOption(
-            'config/curl/' .
+            'config/curl/'.
             CURLOPT_SSL_VERIFYPEER,
             false
         );
@@ -61,7 +61,7 @@ class Client
      */
     public function setAdapter($adapter_name)
     {
-        $adapterClass = "\Zrashwani\NewsScrapper\Adapters\\" . $adapter_name . "Adapter";
+        $adapterClass = "\Zrashwani\NewsScrapper\Adapters\\".$adapter_name."Adapter";
         if (class_exists($adapterClass)) {
             $this->adapter = new $adapterClass();
         } else {
@@ -88,11 +88,11 @@ class Client
         $theAdapter->currentUrl = $baseUrl;
 
         $isXpath = Selector::isXPath($linkSelector);
-        $method = ($isXpath ===false)?'filter':'filterXPath';
+        $method = ($isXpath === false) ? 'filter' : 'filterXPath';
         
         $crawler->$method($linkSelector)
             ->each(
-                function (Crawler $link_node) use (&$scrap_result, $theAdapter, &$limit) {
+                function(Crawler $link_node) use (&$scrap_result, $theAdapter, &$limit) {
                     if (!is_null($limit) && count($scrap_result) >= $limit) {
                         return;
                     }
@@ -147,21 +147,21 @@ class Client
     ) {
         $adapter->currentUrl = $article_info->url; //associate link url to adapter
         
-        $article_info->title = empty($article_info->title) === true?
-                    $adapter->extractTitle($pageCrawler):$article_info->title;
-        $article_info->image = empty($article_info->image) === true?
-                $adapter->extractImage($pageCrawler, $article_info->url):$article_info->image;
-        $article_info->description = empty($article_info->description) === true?
-                $adapter->extractDescription($pageCrawler):$article_info->description;
-        $article_info->keywords = !isset($article_info->keywords) || count($article_info->keywords) === 0?
-                $adapter->extractKeywords($pageCrawler):$article_info->keywords;
+        $article_info->title = empty($article_info->title) === true ?
+                    $adapter->extractTitle($pageCrawler) : $article_info->title;
+        $article_info->image = empty($article_info->image) === true ?
+                $adapter->extractImage($pageCrawler, $article_info->url) : $article_info->image;
+        $article_info->description = empty($article_info->description) === true ?
+                $adapter->extractDescription($pageCrawler) : $article_info->description;
+        $article_info->keywords = !isset($article_info->keywords) || count($article_info->keywords) === 0 ?
+                $adapter->extractKeywords($pageCrawler) : $article_info->keywords;
         
-        $article_info->author = empty($article_info->author) === true?
-                $adapter->extractAuthor($pageCrawler):$article_info->author;
-        $article_info->publishDate = empty($article_info->publishDate) === true?
-                $adapter->extractPublishDate($pageCrawler):$article_info->publishDate;
-        $article_info->body = empty($article_info->body) === true?
-                $adapter->extractBody($pageCrawler):$article_info->body;
+        $article_info->author = empty($article_info->author) === true ?
+                $adapter->extractAuthor($pageCrawler) : $article_info->author;
+        $article_info->publishDate = empty($article_info->publishDate) === true ?
+                $adapter->extractPublishDate($pageCrawler) : $article_info->publishDate;
+        $article_info->body = empty($article_info->body) === true ?
+                $adapter->extractBody($pageCrawler) : $article_info->body;
         
     }
 }

@@ -18,7 +18,7 @@ class ParselyAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//meta[@name="parsely-title"]')
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->attr('content');
                 }
             );
@@ -33,7 +33,7 @@ class ParselyAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//meta[@name="parsely-image-url"]')
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->attr('content');
                 }
             );
@@ -55,7 +55,7 @@ class ParselyAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//meta[@name="parsely-tags"]')
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = explode(',', $node->attr('content'));
                 }
             );
@@ -74,7 +74,7 @@ class ParselyAdapter extends AbstractAdapter
 
         $crawler->filterXPath('//meta[@name="parsely-pub-date"]')
             ->each(
-                function (Crawler $node) use (&$date_str) {
+                function(Crawler $node) use (&$date_str) {
                         $date_str = $node->attr('content');
                 }
             );
@@ -90,7 +90,7 @@ class ParselyAdapter extends AbstractAdapter
         $ret = null;
         $crawler->filterXPath('//meta[@name="parsely-author"]')
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->attr('content');
                 }
             );
