@@ -159,7 +159,7 @@ abstract class AbstractAdapter
         
         $ret = '';
         $html_crawler->filter('body')->each(
-            function(Crawler $node) use (&$ret) {
+            function (Crawler $node) use (&$ret) {
                 $ret = $node->html();
             }
         );
@@ -172,12 +172,12 @@ abstract class AbstractAdapter
      * extract image source by selector
      * @param  Crawler $crawler
      * @param  string $selector
-     * @return string
+     * @return string|NULL
      */
     protected function getSrcByImgSelector(Crawler $crawler, $selector)
     {
         $ret = null;
-        $imgExtractClosure = function(Crawler $node) use (&$ret) {
+        $imgExtractClosure = function (Crawler $node) use (&$ret) {
             $ret = $node->attr('src');
         };
         if (Selector::isXPath($selector)) {
@@ -187,6 +187,11 @@ abstract class AbstractAdapter
             $crawler->filter($selector)
                     ->each($imgExtractClosure);
         }
-        return $this->normalizeLink($ret);
+        
+        if (empty($ret) === false) {
+            return $this->normalizeLink($ret);
+        } else {
+            return null;
+        }
     }
 }
