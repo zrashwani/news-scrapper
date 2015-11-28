@@ -11,6 +11,7 @@ News-Scrapper requires PHP >= 5.4
 [![Code Climate](https://codeclimate.com/repos/55fc7240e30ba0202900a918/badges/b41e6756dff9d9c0e01b/gpa.svg)](https://codeclimate.com/repos/55fc7240e30ba0202900a918/feed)
 [![codecov.io](http://codecov.io/github/zrashwani/news-scrapper/coverage.svg?branch=master)](http://codecov.io/github/zrashwani/news-scrapper?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/89dcd1ed-b9e4-4e56-8db7-aef687e8d89a/mini.png)](https://insight.sensiolabs.com/projects/89dcd1ed-b9e4-4e56-8db7-aef687e8d89a)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zrashwani/news-scrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zrashwani/news-scrapper/?branch=master)
 
 ## How to Install
 You can install this library with [Composer][composer]. Drop this into your `composer.json`
