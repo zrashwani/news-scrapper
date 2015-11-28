@@ -42,10 +42,10 @@ abstract class AbstractAdapter
                 $link = pathinfo($baseUrl, PATHINFO_DIRNAME).'/'.$link;
         } elseif (preg_match('@^http(s?)://.*$@', $link) === 0) { //is not absolute
             $urlParts = parse_url($baseUrl);
-            $scheme = isset($urlParts['scheme'])===true?$urlParts['scheme']:'http';
-            $host = isset($urlParts['host'])===true?$urlParts['host']:'';
+            $scheme = isset($urlParts['scheme']) === true ? $urlParts['scheme'] : 'http';
+            $host = isset($urlParts['host']) === true ? $urlParts['host'] : '';
             if (strpos($link, '//') === 0) { //begins with //
-                $link = $scheme . ':' . $link;
+                $link = $scheme.':'.$link;
             } elseif (strpos($link, '/') === 0) { //begins with /
                 $link = $scheme.'://'.$host.$link;
             } else {
@@ -71,7 +71,7 @@ abstract class AbstractAdapter
             return $raw_html;
         }
         
-        $disallowed_tags = ['script', 'style', 'meta','form','aside'];
+        $disallowed_tags = ['script', 'style', 'meta', 'form', 'aside'];
                 
         $xmlDoc = new \DOMDocument();
         libxml_use_internal_errors(true);
@@ -100,7 +100,7 @@ abstract class AbstractAdapter
      */
     public function normalizeBodyLinks($html)
     {
-        if (empty($html)===true) { //if html is empty, do nothing
+        if (empty($html) === true) { //if html is empty, do nothing
             return $html;
         }
         
@@ -159,7 +159,7 @@ abstract class AbstractAdapter
         
         $ret = '';
         $html_crawler->filter('body')->each(
-            function (Crawler $node) use (&$ret) {
+            function(Crawler $node) use (&$ret) {
                 $ret = $node->html();
             }
         );
@@ -177,7 +177,7 @@ abstract class AbstractAdapter
     protected function getSrcByImgSelector(Crawler $crawler, $selector)
     {
         $ret = null;
-        $imgExtractClosure = function (Crawler $node) use (&$ret) {
+        $imgExtractClosure = function(Crawler $node) use (&$ret) {
             $ret = $node->attr('src');
         };
         if (Selector::isXPath($selector)) {

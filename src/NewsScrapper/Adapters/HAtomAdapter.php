@@ -17,7 +17,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('.hentry .entry-title')
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->text();
                 }
             );
@@ -38,7 +38,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('.hentry .entry-summary')
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->text();
                 }
             );
@@ -52,7 +52,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('.hentry a[rel="tag"]')
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret[] = $node->text();
                 }
             );
@@ -65,7 +65,7 @@ class HAtomAdapter extends AbstractAdapter
         $ret = null;
         $crawler->filter(".hentry .entry-content")
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $this->normalizeHtml($node->html());
                 }
             );
@@ -79,7 +79,7 @@ class HAtomAdapter extends AbstractAdapter
 
         $crawler->filter('time.published, .hentry .entry-date')
             ->each(
-                function (Crawler $node) use (&$date_str) {
+                function(Crawler $node) use (&$date_str) {
                         $date_str = $node->attr('datetime');
                 }
             );
@@ -95,7 +95,7 @@ class HAtomAdapter extends AbstractAdapter
         $ret = null;
         $crawler->filter('.hentry .author.vcard')
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->text();
                 }
             );

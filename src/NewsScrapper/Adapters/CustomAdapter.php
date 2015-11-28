@@ -158,7 +158,7 @@ class CustomAdapter extends AbstractAdapter
 
         $ret = null;
         if ($extractClosure === null) {
-            $extractClosure = function (Crawler $node) use (&$ret) {
+            $extractClosure = function(Crawler $node) use (&$ret) {
                 $ret = $node->html();
             };
         }

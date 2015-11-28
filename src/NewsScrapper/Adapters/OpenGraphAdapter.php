@@ -22,7 +22,7 @@ class OpenGraphAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//head/meta[@property='og:title']")
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->attr('content');
                 }
             );
@@ -31,7 +31,7 @@ class OpenGraphAdapter extends AbstractAdapter
         if (empty($ret) === true) {
             $crawler->filterXPath('//h1')
                 ->each(
-                    function (Crawler $node) use (&$ret) {
+                    function(Crawler $node) use (&$ret) {
                             $ret = $node->text();
                     }
                 );
@@ -40,7 +40,7 @@ class OpenGraphAdapter extends AbstractAdapter
         if (empty($ret) === true) {
             $crawler->filterXPath('//head/title')
                 ->each(
-                    function (Crawler $node) use (&$ret) {
+                    function(Crawler $node) use (&$ret) {
                             $ret = $node->text();
                     }
                 );
@@ -61,7 +61,7 @@ class OpenGraphAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//head/meta[@property='og:image']")
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->attr('content');
                 }
             );
@@ -69,7 +69,7 @@ class OpenGraphAdapter extends AbstractAdapter
         if (empty($ret) === true) {
             $crawler->filterXPath('//img')
                 ->each(
-                    function (Crawler $node) use (&$ret, $theAdapter) {
+                    function(Crawler $node) use (&$ret, $theAdapter) {
                         $img_src = $theAdapter->normalizeLink($node->attr('src'));
                         $width_org = $height_org = 0;
                     
@@ -106,7 +106,7 @@ class OpenGraphAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//head/meta[@property='og:description']")
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->attr('content');
                 }
             );
@@ -125,7 +125,7 @@ class OpenGraphAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//head/meta[@property='og:keywords']")
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                 
                         $node_txt = trim($node->attr('content'));
                     if (!empty($node_txt)) {
@@ -150,7 +150,7 @@ class OpenGraphAdapter extends AbstractAdapter
 
         $crawler->filterXPath("//head/meta[@property='article:published_time']")
             ->each(
-                function (Crawler $node) use (&$date_str) {
+                function(Crawler $node) use (&$date_str) {
                         $date_str = $node->attr('content');
                 }
             );
@@ -168,7 +168,7 @@ class OpenGraphAdapter extends AbstractAdapter
         $ret = null;
         $crawler->filterXPath("//head/meta[@property='article:author']")
             ->each(
-                function (Crawler $node) use (&$ret) {
+                function(Crawler $node) use (&$ret) {
                         $ret = $node->attr('content');
                 }
             );
