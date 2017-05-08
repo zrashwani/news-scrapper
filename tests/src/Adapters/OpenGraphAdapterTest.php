@@ -28,7 +28,7 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
         $adapter = new Adapters\OpenGraphAdapter();
 
         $image = $adapter->extractImage($crawler);
-        $this->assertEquals('http://ogtest.com/og.jpg', $image);
+        $this->assertEquals('https://assets-cdn.github.com/images/modules/open_graph/github-logo.png', $image);
         
         $crawler2 = new Crawler($this->getHtmlContent('opengraph2.html'));
         $adapter->currentUrl = 'https://github.com';
@@ -39,7 +39,16 @@ class OpenGraphAdapterTest extends \PHPUnit_Framework_TestCase
         //test case for pages don't have og tags set
         $crawler3 = new Crawler($this->getHtmlContent('default.html'));
         $image3 = $adapter->extractImage($crawler3);
-        $this->assertEquals('http://www.google.com/images/srpr/logo11w.png', $image3);
+        $this->assertEquals('https://storage.googleapis.com/madebygoog/v1/banners/phone_banner.jpg', $image3);
+    }
+    
+    public function testSmallOGImage(){
+        
+        $crawler = new Crawler($this->getHtmlContent('opengraph3.html'));
+        $adapter = new Adapters\OpenGraphAdapter();        
+        
+        $image = $adapter->extractImage($crawler);
+        $this->assertEquals('https://wewebit.com/wp-content/themes/twentythirteen-child/images/share.jpg', $image);
     }
 
     public function testExtractDescription()

@@ -23,7 +23,8 @@ class DefaultAdapterTest extends \PHPUnit_Framework_TestCase
         $adapter = new Adapters\DefaultAdapter();
         
         $image = $adapter->extractImage($crawler);
-        $this->assertEquals('http://www.google.com/images/srpr/logo11w.png', $image);
+        //larger image
+        $this->assertEquals('https://storage.googleapis.com/madebygoog/v1/banners/phone_banner.jpg', $image);
     }
 
     public function testExtractDescription()

@@ -62,14 +62,16 @@ class OpenGraphAdapter extends AbstractAdapter
         $crawler->filterXPath("//head/meta[@property='og:image']")
             ->each(
                 function(Crawler $node) use (&$ret) {
+                    if($this->getCheckSmallImage($node->attr('content')) === false){ //not small image size
                         $ret = $node->attr('content');
+                    }
                 }
             );
         
-        if (empty($ret) === true) {
+        if (empty($ret) === true) {            
             $crawler->filterXPath('//img')
-                ->each(
-                    function(Crawler $node) use (&$ret, $theAdapter) {
+                ->each(                        
+                    function(Crawler $node) use (&$ret, $theAdapter) {                    
                         $img_src = $theAdapter->normalizeLink($node->attr('src'));
                         $width_org = $height_org = 0;
                     
@@ -83,9 +85,8 @@ class OpenGraphAdapter extends AbstractAdapter
                                 '/'.urlencode($url_ret['basename'])
                             );
                         }
-
                         if ($width > $width_org && $height > $height_org
-                            && $width > 150 && $height > 150 //min size of the image amended
+                            && $width > 200 && $height > 200 //min size of the image amended
                         ) {
                             $ret = $img_src;
                         }
@@ -174,5 +175,19 @@ class OpenGraphAdapter extends AbstractAdapter
             );
                 
         return $ret;
+    }
+    
+    public function getCheckSmallImage($imageUrl){
+
+        $url_ret = pathinfo($imageUrl);
+        list($width_org, $height_org) = getimagesize(
+            $url_ret['dirname'].'/'.urlencode($url_ret['basename'])
+        );
+
+        if($width_org<200 || $height_org < 200){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
