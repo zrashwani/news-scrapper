@@ -47,20 +47,19 @@ class DefaultAdapter extends AbstractAdapter
                         $width_org = $height_org = 0;
                     
                         $url = pathinfo($img_src);
-                        //list($width, $height) = getimagesize($url['dirname'].'/'.urlencode($url['basename']));
-                        list($width, $height) = getimagesize($img_src);
+                        list($width, $height) = getimagesize($url['dirname'].'/'.($url['basename']));
 
-//                    if (empty($ret) === false) {
-//                        $url_ret = pathinfo($ret);
-//                        list($width_org, $height_org) = getimagesize(
-//                            $url_ret['dirname'].
-//                            '/'.urlencode($url_ret['basename'])
-//                        );
-//                    }
-//
-//                    if ($width > $width_org && $height > $height_org) {
-//                        $ret = $img_src;
-//                    }
+                    if (empty($ret) === false) {
+                        $url_ret = pathinfo($ret);
+                        list($width_org, $height_org) = getimagesize(
+                            $url_ret['dirname'].
+                            '/'.($url_ret['basename'])
+                        );
+                    }
+
+                    if ($width > $width_org && $height > $height_org) {
+                        $ret = $img_src;
+                    }
                 }
             );
 
